@@ -112,9 +112,9 @@ export function Gallery() {
 
       <Dialog open={lightbox !== null} onOpenChange={(o) => !o && setLightbox(null)}>
         <DialogContent
-          showCloseButton={false}
-          className="max-w-5xl border-none bg-transparent p-0 shadow-none"
+          className="max-w-5xl border-none bg-transparent p-0 shadow-none [&>button.absolute]:hidden"
         >
+
           {lightbox !== null && (
             <div className="relative">
               <img
