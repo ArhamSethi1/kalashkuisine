@@ -108,6 +108,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "Authentic flavours, warm hospitality, and memorable dining experiences — all under one roof.",
       },
+      { title: "Kalash Kuisine — Premium North Indian & Continental Restaurant in Mansarovar, Jaipur" },
+      { property: "og:title", content: "Kalash Kuisine — Premium North Indian & Continental Restaurant in Mansarovar, Jaipur" },
+      { name: "twitter:title", content: "Kalash Kuisine — Premium North Indian & Continental Restaurant in Mansarovar, Jaipur" },
+      { name: "description", content: "Kalash Kuisine is a premium family restaurant in Mansarovar, Jaipur serving authentic North Indian and Continental cuisine. Perfect for birthdays, kitty parties and celebrations." },
+      { property: "og:description", content: "Kalash Kuisine is a premium family restaurant in Mansarovar, Jaipur serving authentic North Indian and Continental cuisine. Perfect for birthdays, kitty parties and celebrations." },
+      { name: "twitter:description", content: "Kalash Kuisine is a premium family restaurant in Mansarovar, Jaipur serving authentic North Indian and Continental cuisine. Perfect for birthdays, kitty parties and celebrations." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/606822b7-5188-42f0-a456-acc1fef30785/id-preview-e88d0d93--2c57cd10-0670-42bc-8fa7-1dd477bb2dec.lovable.app-1783191372352.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/606822b7-5188-42f0-a456-acc1fef30785/id-preview-e88d0d93--2c57cd10-0670-42bc-8fa7-1dd477bb2dec.lovable.app-1783191372352.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
