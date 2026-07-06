@@ -65,7 +65,27 @@ export function Hero() {
                 View Menu
               </a>
             </Button>
-            <ReserveMenu size="lg" variant="secondary" />
+            <ReserveMenu size="lg" />
+            <Button
+              asChild
+              size="lg"
+              className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0"
+            >
+              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+                <SwiggyIcon className="size-5" />
+                Order on Swiggy
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              className="bg-[#E23744] text-white hover:bg-[#c62d39] border-0"
+            >
+              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+                <ZomatoIcon className="size-5" />
+                Order on Zomato
+              </a>
+            </Button>
             <Button
               asChild
               size="lg"
@@ -95,11 +115,12 @@ export function Hero() {
               className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
             >
               <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
-                <Instagram />
+                <InstagramGradientIcon className="size-5" />
                 Instagram
               </a>
             </Button>
           </div>
+
 
           <div
             className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/90 animate-fade-up"
