@@ -3,6 +3,8 @@ import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ReserveMenu } from "./ReserveMenu";
+import { SwiggyIcon, ZomatoIcon } from "./BrandIcons";
+import { CONTACT } from "@/data/contact";
 import { cn } from "@/lib/utils";
 
 const LINKS = [
