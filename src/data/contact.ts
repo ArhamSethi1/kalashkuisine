@@ -20,7 +20,7 @@ export const CONTACT = {
     eazydiner: "https://www.eazydiner.com/jaipur/kalash-kuisine-mansarovar-jaipur-712296",
   },
   order: {
-    swiggy: "https://www.swiggy.com/",
-    zomato: "https://www.zomato.com/",
+    swiggy: "https://www.swiggy.com/city/jaipur/kalash-kuisine-restaurant-manasarovar-rest1310146",
+    zomato: "https://www.zomato.com/jaipur/kalash-kuisine-restaurant-mansarovar/order",
   },
 } as const;

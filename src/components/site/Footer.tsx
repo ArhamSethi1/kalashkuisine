@@ -1,4 +1,5 @@
-import { Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { InstagramGradientIcon } from "./BrandIcons";
 import { CONTACT } from "@/data/contact";
 import { SectionDivider } from "./SectionDivider";
 
@@ -88,7 +89,7 @@ export function Footer() {
                   rel="noreferrer"
                   className="inline-flex items-center gap-2 hover:text-primary"
                 >
-                  <Instagram className="size-4 text-primary" />
+                  <InstagramGradientIcon className="size-4" />
                   Instagram
                 </a>
               </li>
