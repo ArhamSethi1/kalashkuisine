@@ -1,4 +1,5 @@
-import { Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { MapPin, MessageCircle, Phone } from "lucide-react";
+import { InstagramGradientIcon } from "./BrandIcons";
 import { CONTACT } from "@/data/contact";
 import { SectionDivider } from "./SectionDivider";
 
