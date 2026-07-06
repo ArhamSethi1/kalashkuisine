@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
+import { ArrowDown, Instagram, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
 import heroImg from "@/assets/hero-interior.jpg";
 import { CONTACT } from "@/data/contact";
 import { ReserveMenu } from "./ReserveMenu";
@@ -51,8 +51,7 @@ export function Hero() {
             style={{ animationDelay: "0.45s" }}
           >
             A premium family restaurant in Mansarovar serving delicious North Indian and
-            Continental cuisine — thoughtfully prepared, warmly served, and perfect for every
-            occasion.
+            Continental cuisine.
           </p>
 
           <div
@@ -86,6 +85,17 @@ export function Hero() {
               <a href={CONTACT.phoneHref}>
                 <Phone />
                 Call Now
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+            >
+              <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
+                <Instagram />
+                Instagram
               </a>
             </Button>
           </div>

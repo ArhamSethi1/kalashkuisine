@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { ArrowUp, CalendarCheck, ExternalLink, MessageCircle, X } from "lucide-react";
+import { ArrowUp, CalendarCheck, ExternalLink, X } from "lucide-react";
+import { WhatsAppIcon } from "./WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/data/contact";
 import { cn } from "@/lib/utils";
@@ -55,9 +56,9 @@ export function FloatingActions() {
           target="_blank"
           rel="noreferrer"
           aria-label="Chat on WhatsApp"
-          className="grid size-12 place-items-center rounded-full bg-emerald-500 text-white shadow-lift transition-transform hover:-translate-y-0.5"
+          className="grid size-12 place-items-center rounded-full bg-[#25D366] text-white shadow-lift transition-transform hover:-translate-y-0.5"
         >
-          <MessageCircle className="size-5" />
+          <WhatsAppIcon className="size-6" />
         </a>
         <button
           type="button"
