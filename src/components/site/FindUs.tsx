@@ -1,4 +1,5 @@
-import { Car, Clock, ExternalLink, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Car, Clock, ExternalLink, MapPin, MessageCircle, Phone } from "lucide-react";
+import { InstagramGradientIcon } from "./BrandIcons";
 import { Button } from "@/components/ui/button";
 import { SectionEyebrow } from "./SectionDivider";
 import { ReserveMenu } from "./ReserveMenu";
