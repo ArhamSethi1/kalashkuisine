@@ -86,7 +86,7 @@ export function FindUs() {
               </Button>
               <Button asChild variant="outline">
                 <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
-                  <Instagram />
+                  <InstagramGradientIcon className="size-4" />
                   Instagram
                 </a>
               </Button>
