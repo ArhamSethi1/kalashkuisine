@@ -79,12 +79,33 @@ export function Nav() {
               />
             </a>
           ))}
-          <div className="ml-2">
-            <ReserveMenu />
+          <div className="ml-2 flex items-center gap-2">
+            <Button asChild size="sm" className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0">
+              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+                <SwiggyIcon className="size-4" />
+                Swiggy
+              </a>
+            </Button>
+            <Button asChild size="sm" className="bg-[#E23744] text-white hover:bg-[#c62d39] border-0">
+              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+                <ZomatoIcon className="size-4" />
+                Zomato
+              </a>
+            </Button>
           </div>
         </nav>
 
-        <div className="lg:hidden">
+        <div className="flex items-center gap-2 lg:hidden">
+          <Button asChild size="icon" aria-label="Order on Swiggy" className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0">
+            <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+              <SwiggyIcon className="size-5" />
+            </a>
+          </Button>
+          <Button asChild size="icon" aria-label="Order on Zomato" className="bg-[#E23744] text-white hover:bg-[#c62d39] border-0">
+            <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+              <ZomatoIcon className="size-5" />
+            </a>
+          </Button>
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button
