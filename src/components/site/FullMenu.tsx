@@ -20,11 +20,11 @@ function VegDot() {
 
 export function FullMenu() {
   return (
-    <section id="menu" className="relative bg-[color:var(--cream)] px-5 py-24 sm:px-8 sm:py-32">
+    <section id="menu" className="relative bg-[color:var(--cream)] px-5 pt-8 pb-24 sm:px-8 sm:pt-12 sm:pb-32">
       <div className="mx-auto max-w-5xl">
         <div className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Full Menu</SectionEyebrow>
-          <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-display text-5xl leading-[1.05] font-medium text-foreground sm:text-6xl lg:text-7xl">
             Explore Our <span className="italic text-primary">Complete Menu</span>
           </h2>
           <p className="mt-4 text-muted-foreground">

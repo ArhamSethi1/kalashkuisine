@@ -87,6 +87,17 @@ export function Hero() {
                 Call Now
               </a>
             </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+            >
+              <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
+                <Instagram />
+                Instagram
+              </a>
+            </Button>
           </div>
 
           <div
