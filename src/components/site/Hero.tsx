@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Instagram, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
+import { ArrowDown, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
 import heroImg from "@/assets/hero-interior.jpg";
 import { CONTACT } from "@/data/contact";
 import { ReserveMenu } from "./ReserveMenu";
+import { InstagramGradientIcon, SwiggyIcon, ZomatoIcon } from "./BrandIcons";
 
 export function Hero() {
   return (
