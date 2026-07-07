@@ -17,18 +17,34 @@ export function InstagramGradientIcon({ className }: { className?: string }) {
   );
 }
 
+/**
+ * Swiggy brand mark — stylized italic "S" with a dot, on a white rounded tile.
+ * Renders crisply at any size and reads as the Swiggy logo at button scale.
+ */
 export function SwiggyIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor">
-      <path d="M12 2C7.6 2 4 5.5 4 9.9c0 5.4 6.9 11.3 7.5 11.8.3.2.7.2 1 0 .6-.5 7.5-6.4 7.5-11.8C20 5.5 16.4 2 12 2zm0 11a3.1 3.1 0 1 1 0-6.2 3.1 3.1 0 0 1 0 6.2z" />
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="#ffffff" />
+      <circle cx="21.5" cy="8.2" r="2.2" fill="#FC8019" />
+      <path
+        d="M20.2 12.5c-1.6-1-3.5-1.6-5.5-1.6-3.9 0-7 2.6-7 6 0 2.4 1.7 4.2 4.6 5.1l3.2 1c1.7.5 2.4 1.2 2.4 2.2 0 1.3-1.4 2.2-3.3 2.2-1.9 0-3.4-.7-4.8-2l-1.8 2c1.7 1.7 3.9 2.6 6.5 2.6 4 0 6.8-2.3 6.8-5.4 0-2.4-1.6-4-4.7-4.9l-3-.9c-1.7-.5-2.5-1.2-2.5-2.2 0-1.3 1.3-2.2 3.2-2.2 1.5 0 2.8.5 4 1.6l1.9-1.5z"
+        fill="#FC8019"
+      />
     </svg>
   );
 }
 
+/**
+ * Zomato brand mark — bold lowercase "z" wordmark on a white rounded tile.
+ */
 export function ZomatoIcon({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" fill="currentColor">
-      <path d="M4 6h10.5c2.5 0 4 1.5 4 3.6 0 1.7-1 3-2.6 3.5l3.1 4.9h-3.4l-2.8-4.6H7v4.6H4V6zm3 2.4v4H14c1.2 0 2-.8 2-2s-.8-2-2-2H7z" />
+    <svg viewBox="0 0 32 32" className={className} aria-hidden="true">
+      <rect width="32" height="32" rx="7" fill="#ffffff" />
+      <path
+        d="M9 12h14l-9 8h9v2H7l9-8H9v-2z"
+        fill="#E23744"
+      />
     </svg>
   );
 }
