@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
+import { ArrowDown, Instagram, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
 import heroImg from "@/assets/hero-interior.jpg";
 import { CONTACT } from "@/data/contact";
 import { ReserveMenu } from "./ReserveMenu";
-import { InstagramGradientIcon, SwiggyIcon, ZomatoIcon } from "./BrandIcons";
+import { SwiggyIcon, ZomatoIcon } from "./BrandIcons";
 
 export function Hero() {
   return (
@@ -56,71 +56,78 @@ export function Hero() {
           </p>
 
           <div
-            className="mt-8 flex flex-wrap gap-3 animate-fade-up"
+            className="mt-8 flex max-w-2xl gap-3 animate-fade-up"
             style={{ animationDelay: "0.6s" }}
           >
-            <Button asChild size="lg" className="shadow-glow">
-              <a href="#menu">
-                <MenuIcon />
-                View Menu
-              </a>
-            </Button>
-            <ReserveMenu size="lg" />
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0"
-            >
-              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
-                <SwiggyIcon className="size-5" />
-                Order on Swiggy
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              className="bg-[#E23744] text-white hover:bg-[#c62d39] border-0"
-            >
-              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
-                <ZomatoIcon className="size-5" />
-                Order on Zomato
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
-            >
-              <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
-                <MapPin />
-                Get Directions
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
-            >
-              <a href={CONTACT.phoneHref}>
-                <Phone />
-                Call Now
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              variant="outline"
-              className="border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
-            >
-              <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
-                <InstagramGradientIcon className="size-5" />
-                Instagram
-              </a>
-            </Button>
-          </div>
+            <div className="flex flex-1 flex-col gap-3">
+              <Button asChild size="lg" className="shadow-glow">
+                <a href="#menu">
+                  <MenuIcon />
+                  View Menu
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="border-0 bg-[#E23744] px-4 text-white hover:bg-[#c62d39]"
+              >
+                <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+                  <ZomatoIcon className="size-5" />
+                  Order on Zomato
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="border-0 bg-[#FC8019] px-4 text-white hover:bg-[#e37115]"
+              >
+                <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+                  <SwiggyIcon className="size-5" />
+                  Order on Swiggy
+                </a>
+              </Button>
+              <ReserveMenu size="lg" className="w-full px-4" />
+            </div>
 
+            <div className="flex flex-1 flex-col gap-3">
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/40 bg-white/5 px-4 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+              >
+                <a href={CONTACT.phoneHref}>
+                  <Phone />
+                  Call Now
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                className="border-0 px-4 text-white hover:opacity-90"
+                style={{
+                  background:
+                    "linear-gradient(45deg, #FDF497 0%, #FD5949 45%, #D6249F 60%, #285AEB 90%)",
+                }}
+              >
+                <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
+                  <Instagram className="size-5" />
+                  Instagram
+                </a>
+              </Button>
+              <Button
+                asChild
+                size="lg"
+                variant="outline"
+                className="border-white/40 bg-white/5 px-4 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+              >
+                <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
+                  <MapPin />
+                  Get Directions
+                </a>
+              </Button>
+            </div>
+          </div>
 
           <div
             className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/90 animate-fade-up"
