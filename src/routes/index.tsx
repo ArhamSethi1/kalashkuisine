@@ -13,6 +13,12 @@ import { FinalCta } from "@/components/site/FinalCta";
 import { FindUs } from "@/components/site/FindUs";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
+import { RajasthaniBorder } from "@/components/site/RajasthaniBorder";
+import {
+  ElephantDoodle,
+  PeacockDoodle,
+  PaisleyDoodle,
+} from "@/components/site/RajasthaniDoodles";
 
 const jsonLd = {
   "@context": "https://schema.org",
