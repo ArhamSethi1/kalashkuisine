@@ -15,9 +15,8 @@ import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { RajasthaniBorder } from "@/components/site/RajasthaniBorder";
 import {
-  ElephantDoodle,
-  PeacockDoodle,
-  PaisleyDoodle,
+  DesktopDoodleScatter,
+  MobileDoodleScatter,
 } from "@/components/site/RajasthaniDoodles";
 
 const SITE_URL = "https://kalashkuisine.lovable.app";
