@@ -91,9 +91,9 @@ export function About() {
             </div>
           </button>
 
-          <div className="absolute -bottom-6 -right-4 hidden rounded-2xl border border-[color:var(--gold)]/40 bg-card p-5 shadow-lift sm:block">
-            <div className="font-display text-3xl font-semibold text-primary">10+</div>
-            <div className="text-xs uppercase tracking-widest text-muted-foreground">Years of hospitality</div>
+          <div className="absolute -bottom-6 -right-4 hidden rounded-2xl border border-[color:var(--gold)]/40 bg-card p-5 shadow-lift sm:block animate-soft-float">
+            <div className="font-display text-2xl font-semibold text-primary leading-tight">Freshly Prepared</div>
+            <div className="mt-1 text-xs uppercase tracking-widest text-muted-foreground">Every dish, every day</div>
           </div>
         </div>
 
@@ -129,8 +129,10 @@ export function About() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-5xl border-none bg-black p-0 shadow-none data-[state=open]:animate-scale-in [&>button.absolute]:hidden">
-          <div className="relative overflow-hidden rounded-lg">
+        <DialogContent
+          className="w-auto max-w-[95vw] border-none bg-transparent p-0 shadow-none data-[state=open]:animate-scale-in sm:max-w-[min(95vw,90vh)] [&>button.absolute]:hidden"
+        >
+          <div className="relative inline-block">
             <video
               ref={videoRef}
               key={VIDEOS[activeIdx].src}
@@ -138,14 +140,14 @@ export function About() {
               controls
               autoPlay
               playsInline
-              className="aspect-video w-full bg-black"
+              className="block max-h-[88vh] max-w-[95vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
             />
 
             <Button
               aria-label="Close video"
               size="icon"
               variant="secondary"
-              className="absolute right-3 top-3 z-10 rounded-full"
+              className="absolute right-2 top-2 z-10 rounded-full"
               onClick={() => setOpen(false)}
             >
               <X />
@@ -157,7 +159,7 @@ export function About() {
                   aria-label="Previous video"
                   size="icon"
                   variant="secondary"
-                  className="absolute left-3 top-1/2 z-10 -translate-y-1/2 rounded-full"
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
                   onClick={() => go(-1)}
                 >
                   <ChevronLeft />
@@ -166,7 +168,7 @@ export function About() {
                   aria-label="Next video"
                   size="icon"
                   variant="secondary"
-                  className="absolute right-3 top-1/2 z-10 -translate-y-1/2 rounded-full"
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
                   onClick={() => go(1)}
                 >
                   <ChevronRight />
