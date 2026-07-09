@@ -1,17 +1,24 @@
+import { useReveal } from "@/hooks/useReveal";
+
 /**
  * Traditional Rajasthani border — a richly ornamented band inspired by
  * jharokha arches, mango (keri) paisleys, lotus finials and toran hangings
- * seen in Jaipur/Udaipur haveli architecture. All strokes use currentColor
- * so brand gold/maroon carries through.
+ * seen in Jaipur/Udaipur haveli architecture. Expands from its center when
+ * scrolled into view.
  */
 export function RajasthaniBorder({ className = "" }: { className?: string }) {
+  const { ref, visible } = useReveal<HTMLDivElement>(0.2);
+
   return (
     <div
+      ref={ref}
       aria-hidden
       className={`relative w-full py-6 text-[color:var(--gold)] ${className}`}
     >
       {/* twin hairlines with diamond punctuation */}
-      <div className="relative mx-auto flex max-w-6xl items-center">
+      <div
+        className={`relative mx-auto flex max-w-6xl items-center ${visible ? "raj-expand" : "opacity-0"}`}
+      >
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-current to-current opacity-70" />
         <svg viewBox="0 0 12 12" className="mx-1 h-2.5 w-2.5">
           <path d="M6 0 L12 6 L6 12 L0 6 Z" fill="currentColor" />
@@ -24,7 +31,10 @@ export function RajasthaniBorder({ className = "" }: { className?: string }) {
       </div>
 
       {/* ornamental band */}
-      <div className="relative mx-auto mt-3 flex h-20 max-w-6xl items-center justify-center overflow-hidden">
+      <div
+        className={`relative mx-auto mt-3 flex h-20 max-w-6xl items-center justify-center overflow-hidden ${visible ? "raj-expand" : "opacity-0"}`}
+        style={{ animationDelay: visible ? "120ms" : undefined }}
+      >
         <svg
           viewBox="0 0 1200 80"
           preserveAspectRatio="xMidYMid meet"
@@ -134,7 +144,8 @@ export function RajasthaniBorder({ className = "" }: { className?: string }) {
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
           <svg
             viewBox="0 0 72 72"
-            className="h-16 w-16 text-[color:var(--primary)]"
+            className={`h-16 w-16 text-[color:var(--primary)] ${visible ? "raj-bloom" : "opacity-0"}`}
+            style={{ animationDelay: visible ? "260ms" : undefined }}
           >
             {/* outer petal ring */}
             <g fill="currentColor" opacity="0.9">
@@ -169,7 +180,10 @@ export function RajasthaniBorder({ className = "" }: { className?: string }) {
       </div>
 
       {/* bottom twin hairlines */}
-      <div className="relative mx-auto mt-3 flex max-w-6xl items-center">
+      <div
+        className={`relative mx-auto mt-3 flex max-w-6xl items-center ${visible ? "raj-expand" : "opacity-0"}`}
+        style={{ animationDelay: visible ? "200ms" : undefined }}
+      >
         <div className="h-px flex-1 bg-gradient-to-r from-transparent via-current to-current opacity-70" />
         <svg viewBox="0 0 12 12" className="mx-1 h-2 w-2">
           <path d="M6 0 L12 6 L6 12 L0 6 Z" fill="currentColor" />

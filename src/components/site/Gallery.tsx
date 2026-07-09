@@ -11,6 +11,7 @@ import g3 from "@/assets/gallery-3.jpg";
 import g4 from "@/assets/gallery-4.jpg";
 import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
+import { ImageWithSkeleton } from "./ImageWithSkeleton";
 
 const IMAGES = [
   { src: g1, alt: "Warm dining hall interior at Kalash Kuisine" },
@@ -68,12 +69,13 @@ export function Gallery() {
                   aria-label={`Open image ${i + 1} in lightbox`}
                   className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
                 >
-                  <img
+                  <ImageWithSkeleton
                     src={img.src}
                     alt={img.alt}
                     width={1400}
                     height={1000}
                     loading="lazy"
+                    wrapperClassName="aspect-[7/5] w-full overflow-hidden"
                     className="aspect-[7/5] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />

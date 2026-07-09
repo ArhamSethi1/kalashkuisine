@@ -3,6 +3,7 @@ import { SectionDivider, SectionEyebrow } from "./SectionDivider";
 import { SIGNATURE_DISHES } from "@/data/dishes";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
+import { ImageWithSkeleton } from "./ImageWithSkeleton";
 
 export function SignatureDishes() {
   const { ref, visible } = useReveal<HTMLDivElement>();
@@ -32,12 +33,13 @@ export function SignatureDishes() {
               style={{ transitionDelay: `${i * 90}ms` }}
             >
               <div className="relative overflow-hidden">
-                <img
+                <ImageWithSkeleton
                   src={d.image}
                   alt={d.name}
                   width={1024}
                   height={1024}
                   loading="lazy"
+                  wrapperClassName="aspect-[4/3] w-full overflow-hidden"
                   className="aspect-[4/3] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.05]"
                 />
                 {d.chefPick && (
