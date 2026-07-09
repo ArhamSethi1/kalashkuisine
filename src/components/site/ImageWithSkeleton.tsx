@@ -8,8 +8,8 @@ type Props = ImgHTMLAttributes<HTMLImageElement> & {
 };
 
 /**
- * Image that renders a subtle skeleton until the file has loaded.
- * Uses a timer so the skeleton only shows if load takes > 0.8s.
+ * Image with a skeleton that only appears if load takes > 0.8s.
+ * Skeleton is CSS-delayed to avoid flashing on fast loads.
  */
 export function ImageWithSkeleton({
   wrapperClassName,
@@ -25,8 +25,8 @@ export function ImageWithSkeleton({
       {!loaded && (
         <Skeleton
           className={cn(
-            "absolute inset-0 h-full w-full rounded-none opacity-0 [animation-delay:0.8s] [animation-fill-mode:forwards]",
-            "animate-[fade-in_0.3s_ease-out_0.8s_forwards]",
+            "absolute inset-0 h-full w-full rounded-none",
+            "opacity-0 [animation:skeleton-appear_0.3s_ease-out_0.8s_forwards]",
             skeletonClassName,
           )}
         />
@@ -38,9 +38,9 @@ export function ImageWithSkeleton({
           onLoad?.(e);
         }}
         className={cn(
-          className,
           "transition-opacity duration-500",
           loaded ? "opacity-100" : "opacity-0",
+          className,
         )}
       />
     </div>
