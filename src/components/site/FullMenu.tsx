@@ -1,7 +1,10 @@
+import { useMemo, useRef, useState } from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import {
   ChevronDown,
+  Download,
   GlassWater,
+  Search,
   Soup,
   Sandwich,
   Pizza,
@@ -10,10 +13,12 @@ import {
   Wheat,
   IceCream,
   Crown,
+  X,
   type LucideIcon,
 } from "lucide-react";
 import { MENU, type MenuCategory, type MenuItem } from "@/data/menu";
 import { cn } from "@/lib/utils";
+import menuPdf from "@/assets/kalash-kuisine-menu.pdf.asset.json";
 
 const ICONS: Record<MenuCategory["icon"], LucideIcon> = {
   drinks: GlassWater,
@@ -27,13 +32,68 @@ const ICONS: Record<MenuCategory["icon"], LucideIcon> = {
   crown: Crown,
 };
 
+const slugify = (s: string) =>
+  s
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+
 function formatPrice(price: MenuItem["price"]) {
   return price === "MRP" ? "MRP" : `₹${price}`;
 }
 
-function ItemRow({ item }: { item: MenuItem }) {
+type FlatItem = {
+  itemId: string;
+  catSlug: string;
+  catTitle: string;
+  item: MenuItem;
+};
+
+function buildIndex(): FlatItem[] {
+  const rows: FlatItem[] = [];
+  for (const cat of MENU) {
+    const catSlug = slugify(cat.title);
+    for (const item of cat.items) {
+      rows.push({
+        itemId: `${catSlug}__${slugify(item.name)}`,
+        catSlug,
+        catTitle: cat.title,
+        item,
+      });
+    }
+    for (const g of cat.subGroups ?? []) {
+      for (const item of g.items) {
+        rows.push({
+          itemId: `${catSlug}__${slugify(item.name)}`,
+          catSlug,
+          catTitle: cat.title,
+          item,
+        });
+      }
+    }
+  }
+  return rows;
+}
+
+function ItemRow({
+  item,
+  itemId,
+  highlighted,
+}: {
+  item: MenuItem;
+  itemId: string;
+  highlighted: boolean;
+}) {
   return (
-    <li className="flex items-baseline gap-3 py-2">
+    <li
+      id={itemId}
+      className={cn(
+        "flex items-baseline gap-3 rounded-md py-2 px-2 -mx-2 transition-colors duration-500",
+        highlighted &&
+          "bg-[color-mix(in_oklab,var(--gold)_18%,transparent)] ring-1 ring-[color:var(--gold)]/70",
+      )}
+    >
       <span className="font-medium text-[color:var(--cream)]/95">{item.name}</span>
       <span
         className="flex-1 translate-y-[-3px] border-b border-dotted border-[color:var(--gold)]/30"
@@ -46,12 +106,31 @@ function ItemRow({ item }: { item: MenuItem }) {
   );
 }
 
-function CategoryCard({ cat }: { cat: MenuCategory }) {
+function CategoryCard({
+  cat,
+  catSlug,
+  openValue,
+  onOpenChange,
+  highlightItemId,
+}: {
+  cat: MenuCategory;
+  catSlug: string;
+  openValue: string;
+  onOpenChange: (v: string) => void;
+  highlightItemId: string | null;
+}) {
   const Icon = ICONS[cat.icon];
   const highlight = cat.highlight;
 
   return (
-    <AccordionPrimitive.Root type="single" collapsible className="h-full">
+    <AccordionPrimitive.Root
+      type="single"
+      collapsible
+      value={openValue}
+      onValueChange={onOpenChange}
+      className="h-full"
+      id={`cat-${catSlug}`}
+    >
       <AccordionPrimitive.Item
         value={cat.title}
         className={cn(
@@ -125,9 +204,17 @@ function CategoryCard({ cat }: { cat: MenuCategory }) {
           <div className="px-5 pb-6 pt-1 sm:px-6">
             <div className="mb-4 h-px w-full bg-gradient-to-r from-transparent via-[color:var(--gold)]/40 to-transparent" />
             <ul className="grid gap-x-8 sm:grid-cols-2">
-              {cat.items.map((item) => (
-                <ItemRow key={item.name} item={item} />
-              ))}
+              {cat.items.map((item) => {
+                const itemId = `${catSlug}__${slugify(item.name)}`;
+                return (
+                  <ItemRow
+                    key={item.name}
+                    item={item}
+                    itemId={itemId}
+                    highlighted={highlightItemId === itemId}
+                  />
+                );
+              })}
             </ul>
 
             {cat.subGroups?.map((group) => (
@@ -139,9 +226,17 @@ function CategoryCard({ cat }: { cat: MenuCategory }) {
                   <span className="h-px flex-1 bg-[color:var(--gold)]/25" />
                 </div>
                 <ul className="grid gap-x-8 sm:grid-cols-2">
-                  {group.items.map((item) => (
-                    <ItemRow key={item.name} item={item} />
-                  ))}
+                  {group.items.map((item) => {
+                    const itemId = `${catSlug}__${slugify(item.name)}`;
+                    return (
+                      <ItemRow
+                        key={item.name}
+                        item={item}
+                        itemId={itemId}
+                        highlighted={highlightItemId === itemId}
+                      />
+                    );
+                  })}
                 </ul>
               </div>
             ))}
@@ -159,6 +254,45 @@ function CategoryCard({ cat }: { cat: MenuCategory }) {
 }
 
 export function FullMenu() {
+  const [openCategory, setOpenCategory] = useState<string>("");
+  const [query, setQuery] = useState("");
+  const [focused, setFocused] = useState(false);
+  const [highlightItemId, setHighlightItemId] = useState<string | null>(null);
+  const highlightTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const index = useMemo(buildIndex, []);
+
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return index
+      .filter((r) => r.item.name.toLowerCase().includes(q))
+      .slice(0, 8);
+  }, [query, index]);
+
+  const goToItem = (row: FlatItem) => {
+    setOpenCategory(row.catTitle);
+    setQuery("");
+    setFocused(false);
+
+    // Wait for accordion to open, then scroll.
+    requestAnimationFrame(() => {
+      setTimeout(() => {
+        const el = document.getElementById(row.itemId);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+        } else {
+          document
+            .getElementById(`cat-${row.catSlug}`)
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+        setHighlightItemId(row.itemId);
+        if (highlightTimer.current) clearTimeout(highlightTimer.current);
+        highlightTimer.current = setTimeout(() => setHighlightItemId(null), 1800);
+      }, 380);
+    });
+  };
+
   return (
     <section
       id="menu"
@@ -233,16 +367,142 @@ export function FullMenu() {
             </svg>
             <span className="h-px w-full bg-current opacity-40" />
           </div>
-          <p className="mt-5 text-base text-[color:var(--cream)]/80 sm:text-lg">
-            Four cuisines under one roof — 100% pure vegetarian. Tap any category to
-            explore.
-          </p>
+
+          {/* Download PDF button (replaces tagline) */}
+          <div className="mt-7 flex justify-center">
+            <a
+              href={menuPdf.url}
+              download="Kalash-Kuisine-Menu.pdf"
+              className={cn(
+                "group inline-flex items-center gap-3 rounded-xl px-5 py-3 sm:px-6 sm:py-3.5",
+                "border border-[color:var(--gold)]/60 bg-[color-mix(in_oklab,var(--primary)_82%,black_18%)]",
+                "text-[color:var(--cream)] shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]",
+                "transition-all duration-300 hover:-translate-y-0.5 hover:border-[color:var(--gold)]",
+                "hover:bg-[color:var(--gold)] hover:text-[color:var(--primary)]",
+                "hover:shadow-[0_0_0_1px_color-mix(in_oklab,var(--gold)_55%,transparent),0_24px_60px_-24px_color-mix(in_oklab,var(--gold)_50%,transparent)]",
+              )}
+            >
+              <span
+                className={cn(
+                  "grid size-9 place-items-center rounded-lg border transition-colors",
+                  "border-[color:var(--gold)]/60 bg-[color-mix(in_oklab,var(--gold)_10%,transparent)] text-[color:var(--gold)]",
+                  "group-hover:border-[color:var(--primary)]/40 group-hover:bg-[color:var(--primary)]/10 group-hover:text-[color:var(--primary)]",
+                )}
+              >
+                <Download className="size-4" strokeWidth={2} />
+              </span>
+              <span className="text-left">
+                <span className="block text-[10px] font-medium uppercase tracking-[0.28em] text-[color:var(--gold)] group-hover:text-[color:var(--primary)]/70">
+                  PDF Menu
+                </span>
+                <span className="block font-display text-base font-semibold sm:text-lg">
+                  Download our 100% Pure Vegetarian Menu
+                </span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div className="relative mx-auto mt-10 max-w-xl">
+          <div
+            className={cn(
+              "relative flex items-center rounded-full border transition-all duration-300",
+              "border-[color:var(--gold)]/40 bg-[color-mix(in_oklab,var(--primary)_78%,black_22%)]",
+              "shadow-[0_10px_30px_-18px_rgba(0,0,0,0.6)]",
+              (focused || query) && "border-[color:var(--gold)] shadow-[0_0_0_3px_color-mix(in_oklab,var(--gold)_18%,transparent)]",
+            )}
+          >
+            <Search
+              className="ml-4 size-5 shrink-0 text-[color:var(--gold)]"
+              strokeWidth={2}
+              aria-hidden
+            />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setTimeout(() => setFocused(false), 150)}
+              placeholder="Search for a dish…"
+              aria-label="Search menu"
+              className="w-full bg-transparent px-3 py-3 text-[color:var(--cream)] placeholder:text-[color:var(--cream)]/50 focus:outline-none sm:py-3.5 sm:text-lg"
+            />
+            {query && (
+              <button
+                type="button"
+                aria-label="Clear search"
+                onClick={() => setQuery("")}
+                className="mr-2 grid size-8 place-items-center rounded-full text-[color:var(--cream)]/60 transition-colors hover:bg-white/5 hover:text-[color:var(--cream)]"
+              >
+                <X className="size-4" />
+              </button>
+            )}
+          </div>
+
+          {query && (focused || results.length > 0) && (
+            <div
+              className={cn(
+                "absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-2xl",
+                "border border-[color:var(--gold)]/40 bg-[color-mix(in_oklab,var(--primary)_88%,black_12%)]",
+                "shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)] backdrop-blur-md",
+                "animate-in fade-in-0 slide-in-from-top-2 duration-200",
+              )}
+            >
+              {results.length === 0 ? (
+                <div className="px-5 py-6 text-center text-sm text-[color:var(--cream)]/60">
+                  No dishes found for “{query}”.
+                </div>
+              ) : (
+                <ul className="max-h-[60vh] divide-y divide-[color:var(--gold)]/15 overflow-auto">
+                  {results.map((row) => (
+                    <li key={row.itemId}>
+                      <button
+                        type="button"
+                        // onMouseDown fires before blur so click still lands
+                        onMouseDown={(e) => {
+                          e.preventDefault();
+                          goToItem(row);
+                        }}
+                        className={cn(
+                          "flex w-full items-center gap-3 px-5 py-3 text-left transition-colors",
+                          "hover:bg-[color-mix(in_oklab,var(--gold)_10%,transparent)] focus:bg-[color-mix(in_oklab,var(--gold)_10%,transparent)] focus:outline-none",
+                        )}
+                      >
+                        <div className="min-w-0 flex-1">
+                          <div className="truncate font-medium text-[color:var(--cream)]">
+                            {row.item.name}
+                          </div>
+                          <div className="mt-0.5 text-[11px] uppercase tracking-[0.18em] text-[color:var(--gold)]/80">
+                            {row.catTitle}
+                          </div>
+                        </div>
+                        <span className="tabular-nums text-sm font-medium text-[color:var(--gold)]">
+                          {formatPrice(row.item.price)}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="mt-12 grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {MENU.map((cat) => (
-            <CategoryCard key={cat.title} cat={cat} />
-          ))}
+          {MENU.map((cat) => {
+            const catSlug = slugify(cat.title);
+            return (
+              <CategoryCard
+                key={cat.title}
+                cat={cat}
+                catSlug={catSlug}
+                openValue={openCategory === cat.title ? cat.title : ""}
+                onOpenChange={(v) => setOpenCategory(v === cat.title ? cat.title : "")}
+                highlightItemId={highlightItemId}
+              />
+            );
+          })}
         </div>
 
         <p className="mt-10 text-center text-xs italic text-[color:var(--cream)]/60">
