@@ -140,8 +140,7 @@ export function About() {
               autoPlay
               muted
               playsInline
-              // @ts-expect-error legacy iOS attribute
-              webkit-playsinline="true"
+              {...({ "webkit-playsinline": "true" } as Record<string, string>)}
               preload="metadata"
               className="block max-h-[88vh] max-w-[95vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
             >
