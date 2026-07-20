@@ -1,30 +1,50 @@
-## Menu Section Redesign — Reference-Matched Rebuild
+## 1. Menu search bar
 
-Rebuild `FullMenu` to match the uploaded screenshots exactly: maroon-on-maroon luxury accordion grid on desktop, stacked large cards on mobile, gold iconography, and a highlighted "Thalis & Combos" tile. Replace current data with the 9 categories provided.
+Add a search input at the top of the Menu section (below the "Our Menu" heading), styled to match the maroon/gold vibe: rounded pill, cream/gold border, cream text, gold search icon, subtle inner glow.
 
-### Files
+- As the user types, show a dropdown panel directly under the input listing matching dishes (name + category + price). Match on dish name (case-insensitive, substring), max ~8 results, includes items in `subGroups` too.
+- Clicking a result:
+  - Closes the dropdown, clears focus.
+  - Opens the target category's accordion (lift accordion state up to `FullMenu` so it can programmatically open a category).
+  - Smooth-scrolls to that category card, then to the dish row inside it.
+  - Briefly highlights the dish row (gold flash / ring for ~1.5s).
+- Requires giving each item row a stable `id` (slug of category + dish name) and each category card an id, plus refs so we can scroll+highlight.
+- Empty state: "No dishes found" in muted cream when query has no matches.
 
-**`src/data/menu.ts`** — Replace entirely.
-- New shape: `MenuCategory = { title, blurb, icon (lucide name key), highlight?: boolean, items: { name, price: number | "MRP", note? }[] }`.
-- Optional per-category `footnote` (e.g. parathas served with curd and pickles).
-- 9 categories with exact items/prices from the brief. `Thalis & Combos` gets `highlight: true` and includes the Quick Combos as a sub-group.
+## 2. Replace tagline with PDF download button
 
-**`src/components/site/FullMenu.tsx`** — Full rewrite.
-- Section background: deep maroon (`--maroon`) with a radial gold glow (`radial-gradient` at top center), a very low-opacity concentric-ring SVG pattern (matching the screenshots' faint arcs), and soft top/bottom vignette gradients.
-- Header block: gold eyebrow, `Our Menu` in display serif (cream/gold), gold divider with center diamond, subtitle "Four cuisines under one roof — 100% pure vegetarian. Tap any category to explore." All centered, on maroon.
-- Grid: `grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-3`. Each cell holds one Radix Accordion (`type="single" collapsible`) so any card can open independently while keeping the 3-col grid layout intact (matches screenshot — cards don't collapse siblings).
-- Card (AccordionItem): rounded-2xl, deep maroon fill (slightly lighter than section bg), thin gold border (`border-[color:var(--gold)]/40`), soft shadow, hover lifts + border brightens.
-  - Trigger row: circular gold-outlined icon (left, ~44px), title in serif cream (center-left, description line beneath in muted gold/cream on desktop only — hidden on mobile per screenshots 1/4 which show title-only, shown on desktop per screenshot 3), gold chevron right that rotates 180° on open.
-  - Content: expanded panel with `2` columns on `md+`, single column on mobile. Each item is a flex row: name left, dotted leader (`border-b border-dotted border-[color:var(--gold)]/25` on a flex-1 spacer), price right in gold tabular-nums. `MRP` rendered instead of `₹`. Optional `note` shows as a tiny italic line beneath the name. Category `footnote` shown below the list in small italic gold.
-  - Thalis & Combos: `highlight` variant — thicker gold border, gold inner glow (`shadow-[0_0_0_1px_var(--gold),0_10px_40px_-10px_color-mix(in_oklab,var(--gold)_40%,transparent)]`), slight scale on hover, crown icon inline next to title. Inside expanded content, "Quick Combos" appears as a subheading above the combo items.
-- Icons: lucide-react — `GlassWater, Soup, Sandwich, Pizza, CookingPot, Utensils, Wheat, IceCream, Crown`. All stroked in `--gold` inside a circular gold-outline chip.
-- Motion: Radix `data-[state=open]` height/opacity transitions already handled via existing accordion animations in styles; add `data-[state=open]:rotate-180 transition-transform duration-300` on chevron and ensure `AccordionContent` uses the existing `accordion-down/up` keyframes with fade.
-- Footer line under grid: "Prices in INR · Menu subject to seasonal changes · GST as applicable" centered, small italic gold-muted.
+- Save the uploaded `KALASH_KUISINE.pdf` as a Lovable Asset and import the pointer.
+- Remove the paragraph: "Four cuisines under one roof — 100% pure vegetarian. Tap any category to explore."
+- Replace with a rectangular button, gold-outlined on maroon (matches menu card styling), with a `Download` lucide icon on the left and "Download our 100% Pure Vegetarian Menu" on the right. Hover: gold fill / maroon text.
+- Uses a plain `<a href={pdf.url} download>` so it downloads the PDF.
 
-### Styling notes
-- Reuse existing tokens (`--maroon`, `--gold`, `--cream`). No new tokens needed unless a lighter card-maroon is required — if so, add `--maroon-card` in `src/styles.css`.
-- Keep `SectionDivider` / `SectionEyebrow` usage consistent with rest of site, but color-inverted for maroon bg.
+## 3. Video reliability (About section trailers)
 
-### Out of scope
-- Nav, Hero, other sections untouched.
-- No data fetching, no route changes.
+Investigate and fix the About-section video player so both trailers work reliably on iOS and across desktops.
+
+- Add `preload="metadata"`, `muted` (required for iOS autoplay), `playsInline`, `webkit-playsinline`, `controls`, `crossOrigin="anonymous"` where useful.
+- Explicit `<source>` element with `type="video/mp4"` instead of `src` attribute, so browsers with codec quirks report failure cleanly.
+- Handle `onError` on the video to show a fallback message + a direct "Open video" link so the user can still view it if inline playback fails.
+- On dialog open, only call `play()` after the `loadeddata` event, and catch the rejection silently (iOS blocks unmuted autoplay — we start muted then unmute on user gesture / tap of an unmute button in the corner).
+- Add a small "Tap to unmute" overlay button (since autoplay requires muted on iOS).
+- Verify the `.asset.json` MP4 URLs return proper `video/mp4` `Content-Type` from the CDN (a quick `curl -I` during build). If either file is H.265/HEVC-only, note it — Safari plays HEVC but many desktop Chromes don't; if so, we'd need a re-encode (out of scope of this plan unless confirmed).
+
+## 4. Reserve floating button — only after hero
+
+In `FloatingActions.tsx`, gate the Reserve button + its expandable panel behind the same scroll threshold as Back-to-Top (scrollY > 600 / past hero). Before that, only the WhatsApp button is visible.
+
+## 5. Swap Reserve and Back-to-Top positions
+
+Reorder the button stack so that after scrolling past the hero: Back-to-Top sits where Reserve was (middle), Reserve sits where Back-to-Top was (bottom). WhatsApp stays in its current slot. Both Reserve and Back-to-Top appear together after the hero.
+
+Final stack top → bottom: Reserve, WhatsApp, Back-to-Top → becomes → Back-to-Top, WhatsApp, Reserve (or the specific arrangement matching current spots; we'll swap the two specified buttons only, leaving WhatsApp untouched).
+
+## 6. Sidebar duplicate close button
+
+The mobile nav Sheet shows two X buttons: one from the shadcn `SheetContent` default (top-right absolute) and one we render manually in the sheet body. Remove the built-in one for this sheet by passing a class that hides it (or use `[&>button.absolute]:hidden` on `SheetContent`), keeping only our styled in-sheet close button.
+
+## Technical notes
+
+- Files touched: `src/components/site/FullMenu.tsx` (search + button + open/scroll logic), `src/data/menu.ts` (add slug helper or compute inline), `src/components/site/About.tsx` (video hardening + unmute overlay + error fallback), `src/components/site/FloatingActions.tsx` (scroll gating + reorder), `src/components/site/Nav.tsx` (add `[&>button.absolute]:hidden` to `SheetContent`), new asset `src/assets/kalash-kuisine-menu.pdf.asset.json`.
+- No backend changes.
+- No new dependencies.

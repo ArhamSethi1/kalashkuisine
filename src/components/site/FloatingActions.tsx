@@ -6,15 +6,19 @@ import { CONTACT } from "@/data/contact";
 import { cn } from "@/lib/utils";
 
 export function FloatingActions() {
-  const [showTop, setShowTop] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setShowTop(window.scrollY > 600);
+    const onScroll = () => setPastHero(window.scrollY > 600);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    if (!pastHero) setOpen(false);
+  }, [pastHero]);
 
   return (
     <div className="pointer-events-none fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
@@ -43,14 +47,20 @@ export function FloatingActions() {
       </div>
 
       <div className="pointer-events-auto flex flex-col gap-3">
-        <Button
-          aria-label={open ? "Close reserve options" : "Reserve a table"}
-          size="icon"
-          onClick={() => setOpen((o) => !o)}
-          className="size-12 rounded-full shadow-lift"
+        {/* Back to top (top slot, was previously bottom) */}
+        <button
+          type="button"
+          aria-label="Back to top"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className={cn(
+            "grid size-12 place-items-center rounded-full border border-border/60 bg-card text-foreground shadow-lift transition-all",
+            pastHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
+          )}
         >
-          {open ? <X /> : <CalendarCheck />}
-        </Button>
+          <ArrowUp className="size-5" />
+        </button>
+
+        {/* WhatsApp (always visible) */}
         <a
           href={CONTACT.whatsappHref}
           target="_blank"
@@ -60,17 +70,19 @@ export function FloatingActions() {
         >
           <WhatsAppIcon className="size-6" />
         </a>
-        <button
-          type="button"
-          aria-label="Back to top"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+
+        {/* Reserve (bottom slot, was previously top) — only after hero */}
+        <Button
+          aria-label={open ? "Close reserve options" : "Reserve a table"}
+          size="icon"
+          onClick={() => setOpen((o) => !o)}
           className={cn(
-            "grid size-12 place-items-center rounded-full border border-border/60 bg-card text-foreground shadow-lift transition-all",
-            showTop ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
+            "size-12 rounded-full shadow-lift transition-all",
+            pastHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
           )}
         >
-          <ArrowUp className="size-5" />
-        </button>
+          {open ? <X /> : <CalendarCheck />}
+        </Button>
       </div>
     </div>
   );

@@ -117,7 +117,7 @@ export function Nav() {
                 <Menu />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[86vw] max-w-sm border-l border-border/60 bg-[color:var(--cream)]">
+            <SheetContent side="right" className="w-[86vw] max-w-sm border-l border-border/60 bg-[color:var(--cream)] [&>button.absolute]:hidden">
               <div className="mb-8 flex items-center justify-between">
                 <span className="font-display text-2xl font-semibold text-primary">Kalash Kuisine</span>
                 <Button variant="ghost" size="icon" aria-label="Close menu" onClick={() => setOpen(false)}>

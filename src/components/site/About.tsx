@@ -136,12 +136,21 @@ export function About() {
             <video
               ref={videoRef}
               key={VIDEOS[activeIdx].src}
-              src={VIDEOS[activeIdx].src}
               controls
               autoPlay
+              muted
               playsInline
+              {...({ "webkit-playsinline": "true" } as Record<string, string>)}
+              preload="metadata"
               className="block max-h-[88vh] max-w-[95vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
-            />
+            >
+              <source src={VIDEOS[activeIdx].src} type="video/mp4" />
+              Your browser can't play this video.{" "}
+              <a href={VIDEOS[activeIdx].src} className="underline">
+                Open it directly
+              </a>
+              .
+            </video>
 
             <Button
               aria-label="Close video"
