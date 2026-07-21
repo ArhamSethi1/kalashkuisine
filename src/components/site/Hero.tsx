@@ -4,10 +4,12 @@ import heroImg from "@/assets/hero-interior.jpg";
 import { CONTACT } from "@/data/contact";
 import { ReserveMenu } from "./ReserveMenu";
 import { SwiggyIcon, ZomatoIcon } from "./BrandIcons";
+import { SectionDivider } from "./SectionDivider";
 
 export function Hero() {
   return (
     <section id="home" className="relative min-h-[100svh] w-full overflow-hidden">
+      {/* Background */}
       <div className="absolute inset-0">
         <img
           src={heroImg}
@@ -16,51 +18,148 @@ export function Hero() {
           height={1200}
           className="size-full object-cover animate-slow-zoom"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/70" />
+        {/* Maroon tint */}
+        <div className="absolute inset-0 bg-[color:var(--primary)]/55 mix-blend-multiply" />
+        {/* Radial vignette — darker at edges, breathable at center */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.8) 100%)",
+          }}
+        />
+        {/* Bottom fade into cream for section handoff */}
         <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--cream)] via-transparent to-transparent" />
       </div>
 
-      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-7xl flex-col justify-center px-5 pt-28 pb-24 sm:px-8">
-        <div className="max-w-3xl text-white">
-          <div
-            className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-4 py-1.5 text-[11px] font-medium uppercase tracking-[0.28em] text-white/90 backdrop-blur-md animate-fade-up"
-            style={{ animationDelay: "0.05s" }}
-          >
-            <span className="size-1.5 rounded-full bg-[color:var(--gold)]" />
-            Mansarovar · Jaipur
+      {/* Content */}
+      <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-5xl flex-col items-center justify-center px-5 pt-24 pb-16 text-center sm:px-8 sm:pt-28 sm:pb-24">
+        {/* Pill + script */}
+        <div
+          className="flex flex-col items-center justify-center gap-3 animate-fade-up sm:flex-row sm:gap-5"
+          style={{ animationDelay: "0.05s" }}
+        >
+          <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--gold)]/50 bg-black/30 px-4 py-1.5 text-xs font-medium text-white/95 backdrop-blur-md sm:text-sm">
+            <Star className="size-3.5 fill-[color:var(--gold)] text-[color:var(--gold)]" />
+            {CONTACT.rating} · {CONTACT.reviewCount} Google Reviews
+          </span>
+          <span className="font-display text-2xl italic text-[color:var(--gold-soft)] sm:text-3xl">
+            Welcome to
+          </span>
+        </div>
+
+        {/* Wordmark */}
+        <h1
+          className="mt-6 font-display font-medium tracking-tight text-white leading-[0.95] animate-fade-up"
+          style={{ animationDelay: "0.15s" }}
+        >
+          <span className="block text-6xl sm:text-8xl lg:text-9xl">
+            <span className="text-white">Kalash </span>
+            <span className="italic text-[color:var(--gold-soft)]">Kuisine</span>
+          </span>
+        </h1>
+
+        {/* Divider */}
+        <div
+          className="mt-8 w-full max-w-xs animate-fade-up"
+          style={{ animationDelay: "0.25s" }}
+        >
+          <SectionDivider className="opacity-90" />
+        </div>
+
+        {/* Tagline */}
+        <p
+          className="mt-6 font-display text-2xl italic text-[color:var(--gold-soft)] sm:text-3xl animate-fade-up"
+          style={{ animationDelay: "0.35s" }}
+        >
+          A Taste of Timeless Tradition
+        </p>
+
+        {/* Subtitle — hidden on mobile to reduce clutter */}
+        <p
+          className="mt-5 hidden max-w-2xl text-base leading-relaxed text-white/85 sm:block sm:text-lg animate-fade-up"
+          style={{ animationDelay: "0.45s" }}
+        >
+          Multi-cuisine family dining in the heart of Mansarovar, Jaipur — where
+          Rajasthani heritage meets modern comfort.
+        </p>
+
+        {/* CTAs */}
+        <div
+          className="mt-10 flex w-full max-w-2xl flex-col items-stretch gap-3 animate-fade-up sm:items-center"
+          style={{ animationDelay: "0.6s" }}
+        >
+          {/* Mobile: single column, ordered per spec */}
+          <div className="flex flex-col gap-3 sm:hidden">
+            <Button asChild size="lg" className="w-full shadow-glow">
+              <a href="#menu">
+                <MenuIcon />
+                View Menu
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              className="w-full border-0 bg-[#E23744] text-white hover:bg-[#c62d39]"
+            >
+              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+                <ZomatoIcon className="size-5" />
+                Order on Zomato
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              className="w-full border-0 bg-[#FC8019] text-white hover:bg-[#e37115]"
+            >
+              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+                <SwiggyIcon className="size-5" />
+                Order on Swiggy
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+            >
+              <a href={CONTACT.phoneHref}>
+                <Phone />
+                Call Now
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
+              className="w-full border-0 text-white hover:opacity-90"
+              style={{
+                background:
+                  "linear-gradient(45deg, #FDF497 0%, #FD5949 45%, #D6249F 60%, #285AEB 90%)",
+              }}
+            >
+              <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
+                <Instagram className="size-5" />
+                Instagram
+              </a>
+            </Button>
+            <ReserveMenu size="lg" className="w-full" />
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="w-full border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+            >
+              <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
+                <MapPin />
+                Get Directions
+              </a>
+            </Button>
           </div>
 
-          <h1
-            className="font-display text-4xl leading-[1.05] font-medium tracking-tight text-white sm:text-6xl lg:text-7xl animate-fade-up"
-            style={{ animationDelay: "0.15s" }}
-          >
-            Experience Authentic{" "}
-            <span className="italic text-[color:var(--gold-soft)]">North Indian</span>
-            {" & "}
-            <span className="italic text-[color:var(--gold-soft)]">Continental</span> Dining
-          </h1>
-
-          <p
-            className="mt-5 font-display text-xl italic text-white/85 sm:text-2xl animate-fade-up"
-            style={{ animationDelay: "0.3s" }}
-          >
-            Great Food. Great Company. Great Memories.
-          </p>
-
-          <p
-            className="mt-5 max-w-xl text-base leading-relaxed text-white/80 sm:text-lg animate-fade-up"
-            style={{ animationDelay: "0.45s" }}
-          >
-            A premium family restaurant in Mansarovar serving delicious North Indian and
-            Continental cuisine.
-          </p>
-
-          <div
-            className="mt-8 flex max-w-2xl gap-3 animate-fade-up"
-            style={{ animationDelay: "0.6s" }}
-          >
-            <div className="flex flex-1 flex-col gap-3">
-              <Button asChild size="lg" className="shadow-glow">
+          {/* Desktop: centered rows */}
+          <div className="hidden sm:flex sm:flex-col sm:items-center sm:gap-3">
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button asChild size="lg" className="min-w-[180px] shadow-glow">
                 <a href="#menu">
                   <MenuIcon />
                   View Menu
@@ -69,7 +168,20 @@ export function Hero() {
               <Button
                 asChild
                 size="lg"
-                className="border-0 bg-[#E23744] px-4 text-white hover:bg-[#c62d39]"
+                variant="outline"
+                className="min-w-[180px] border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+              >
+                <a href={CONTACT.phoneHref}>
+                  <Phone />
+                  Call Now
+                </a>
+              </Button>
+            </div>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Button
+                asChild
+                size="lg"
+                className="min-w-[180px] border-0 bg-[#E23744] text-white hover:bg-[#c62d39]"
               >
                 <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
                   <ZomatoIcon className="size-5" />
@@ -79,32 +191,17 @@ export function Hero() {
               <Button
                 asChild
                 size="lg"
-                className="border-0 bg-[#FC8019] px-4 text-white hover:bg-[#e37115]"
+                className="min-w-[180px] border-0 bg-[#FC8019] text-white hover:bg-[#e37115]"
               >
                 <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
                   <SwiggyIcon className="size-5" />
                   Order on Swiggy
                 </a>
               </Button>
-              <ReserveMenu size="lg" className="w-full px-4" />
-            </div>
-
-            <div className="flex flex-1 flex-col gap-3">
               <Button
                 asChild
                 size="lg"
-                variant="outline"
-                className="border-white/40 bg-white/5 px-4 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
-              >
-                <a href={CONTACT.phoneHref}>
-                  <Phone />
-                  Call Now
-                </a>
-              </Button>
-              <Button
-                asChild
-                size="lg"
-                className="border-0 px-4 text-white hover:opacity-90"
+                className="min-w-[180px] border-0 text-white hover:opacity-90"
                 style={{
                   background:
                     "linear-gradient(45deg, #FDF497 0%, #FD5949 45%, #D6249F 60%, #285AEB 90%)",
@@ -115,41 +212,29 @@ export function Hero() {
                   Instagram
                 </a>
               </Button>
+            </div>
+            <div className="flex flex-wrap justify-center gap-3">
               <Button
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-white/40 bg-white/5 px-4 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
+                className="min-w-[180px] border-white/40 bg-white/5 text-white backdrop-blur-md hover:bg-white/15 hover:text-white"
               >
                 <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
                   <MapPin />
                   Get Directions
                 </a>
               </Button>
+              <ReserveMenu size="lg" className="min-w-[180px]" />
             </div>
-          </div>
-
-          <div
-            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/90 animate-fade-up"
-            style={{ animationDelay: "0.8s" }}
-          >
-            <span className="inline-flex items-center gap-2">
-              <Star className="size-4 fill-[color:var(--gold)] text-[color:var(--gold)]" />
-              <span className="font-medium">{CONTACT.rating} Google Rating</span>
-              <span className="text-white/70">· {CONTACT.reviewCount} Reviews</span>
-            </span>
-            <span className="hidden h-4 w-px bg-white/25 sm:block" />
-            <span className="inline-flex items-center gap-2">
-              <span className="size-2 rounded-full bg-emerald-400 shadow-[0_0_0_4px_rgba(52,211,153,0.15)]" />
-              Open Today · Until 11 PM
-            </span>
           </div>
         </div>
 
+        {/* Scroll indicator */}
         <a
           href="#trust"
           aria-label="Scroll to explore"
-          className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-white sm:flex"
+          className="absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 transition-colors hover:text-white sm:flex"
         >
           <span className="text-[10px] uppercase tracking-[0.32em]">Scroll</span>
           <ArrowDown className="size-4 animate-bob" />
