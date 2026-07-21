@@ -18,18 +18,17 @@ export function Hero() {
           height={1200}
           className="size-full object-cover animate-slow-zoom"
         />
-        {/* Maroon tint */}
-        <div className="absolute inset-0 bg-[color:var(--primary)]/55 mix-blend-multiply" />
+        {/* Maroon tint — matches reference */}
+        <div className="absolute inset-0 bg-[color:var(--primary)]/70 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-[#2a0608]/40" />
         {/* Radial vignette — darker at edges, breathable at center */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(ellipse at center, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.8) 100%)",
+              "radial-gradient(ellipse at center, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.5) 65%, rgba(0,0,0,0.85) 100%)",
           }}
         />
-        {/* Bottom fade into cream for section handoff */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[color:var(--cream)] via-transparent to-transparent" />
       </div>
 
       {/* Content */}
