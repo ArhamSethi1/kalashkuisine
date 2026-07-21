@@ -32,7 +32,7 @@ const items = [
 export function TrustBar() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <section id="trust" className="relative z-10 -mt-20 px-5 sm:px-8">
+    <section id="trust" className="relative z-10 mt-12 px-5 sm:mt-16 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <div
           ref={ref}
