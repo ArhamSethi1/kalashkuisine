@@ -88,32 +88,12 @@ export function Hero() {
           className="mt-10 flex w-full max-w-2xl flex-col items-stretch gap-3 animate-fade-up sm:items-center"
           style={{ animationDelay: "0.6s" }}
         >
-          {/* Mobile: single column, ordered per spec */}
-          <div className="flex flex-col gap-3 sm:hidden">
+          {/* Mobile: 2-column grid */}
+          <div className="grid grid-cols-2 gap-3 sm:hidden">
             <Button asChild size="lg" className="w-full shadow-glow">
               <a href="#menu">
                 <MenuIcon />
                 View Menu
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              className="w-full border-0 bg-[#E23744] text-white hover:bg-[#c62d39]"
-            >
-              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
-                <ZomatoIcon className="size-5" />
-                Order on Zomato
-              </a>
-            </Button>
-            <Button
-              asChild
-              size="lg"
-              className="w-full border-0 bg-[#FC8019] text-white hover:bg-[#e37115]"
-            >
-              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
-                <SwiggyIcon className="size-5" />
-                Order on Swiggy
               </a>
             </Button>
             <Button
@@ -130,6 +110,16 @@ export function Hero() {
             <Button
               asChild
               size="lg"
+              className="w-full border-0 bg-[#E23744] text-white hover:bg-[#c62d39]"
+            >
+              <a href={CONTACT.order.zomato} target="_blank" rel="noreferrer">
+                <ZomatoIcon className="size-5" />
+                Zomato
+              </a>
+            </Button>
+            <Button
+              asChild
+              size="lg"
               className="w-full border-0 text-white hover:opacity-90"
               style={{
                 background:
@@ -141,7 +131,16 @@ export function Hero() {
                 Instagram
               </a>
             </Button>
-            <ReserveMenu size="lg" className="w-full" />
+            <Button
+              asChild
+              size="lg"
+              className="w-full border-0 bg-[#FC8019] text-white hover:bg-[#e37115]"
+            >
+              <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
+                <SwiggyIcon className="size-5" />
+                Swiggy
+              </a>
+            </Button>
             <Button
               asChild
               size="lg"
@@ -150,9 +149,10 @@ export function Hero() {
             >
               <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
                 <MapPin />
-                Get Directions
+                Directions
               </a>
             </Button>
+            <ReserveMenu size="lg" className="col-span-2 w-full" />
           </div>
 
           {/* Desktop: centered rows */}
