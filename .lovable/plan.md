@@ -1,51 +1,71 @@
-## Hero redesign — centered "Kalash Kuisine" layout
+## Website-Wide Design Refinement — Kalash Kuisine
 
-Rebuild `src/components/site/Hero.tsx` to match the reference image. Keep the current background image (`hero-interior.jpg`) with its existing zoom animation, but add a slightly stronger maroon/red tint over it so the composition reads like the reference. Do not touch `FloatingActions.tsx`, `Nav.tsx`, or any other section.
+Goal: recreate the luxury visual rhythm of Image 1 (alternating maroon/beige sections, refined serif typography, editorial spacing, staggered review cards), rebuild the Reviews section to match Image 1, and add a masonry gallery (Images 2 & 3) above the existing rolling strip. Content, branding, and data stay unchanged.
 
-### Layout (desktop)
+---
 
-Everything center-aligned in a single column, vertically centered in the viewport:
+### 1. Global Design System (`src/styles.css`)
 
-1. **Top row pill + script** — small rounded pill "★ 4.9 · 300+ Google Reviews" (thin gold border, translucent dark fill, gold star) sitting inline next to a hand-script "Welcome to" in gold italic display font. Both on one line, centered.
-2. **Wordmark headline** — massive display serif "Kalash Kuisine" where "Kalash" is cream/white and "Kuisine" is gold italic. Sizes roughly `text-6xl sm:text-8xl lg:text-9xl`, tight leading, letter-spacing slightly tightened.
-3. **Divider** — tiny gold hairline with a diamond/spark in the center (reuse `SectionDivider` styling, small).
-4. **Tagline** — italic display line in soft gold: *"A Taste of Timeless Tradition"*.
-5. **Subtitle** — one short paragraph in cream/white/80: "Multi-cuisine family dining in the heart of Mansarovar, Jaipur — where Rajasthani heritage meets modern comfort."
-6. **CTA stack** — centered rows, buttons keep their existing brand styling but sit in a centered flex-wrap layout instead of the current 2-column grid:
-   - Row 1: **View Menu** (maroon outline on translucent), **Call Now** (outline)
-   - Row 2: **Order on Zomato** (red), **Order on Swiggy** (orange), **Instagram** (gradient)
-   - Row 3: **Get Directions** (outline), **Reserve Table** (maroon outline, using existing `ReserveMenu`)
-   - Buttons use a consistent height, pill/rounded rectangle shape matching the reference, and `min-w` so they line up in tidy rows.
-7. **Scroll indicator** — small "SCROLL ↓" at the bottom center (already exists, keep).
+- Introduce two canonical section backgrounds as tokens:
+  - `--section-maroon`: deep maroon → wine gradient with a soft gold radial glow + faint concentric line pattern (reuse the menu-section treatment for consistency).
+  - `--section-beige`: warm cream/ivory/parchment gradient with burgundy text.
+- Increase vertical rhythm: bump section padding to `py-28 sm:py-36` and tighten heading→divider→body spacing to match Image 1.
+- Refine heading scale/weight for Cormorant (display serif) — slightly larger, tighter tracking, more italic accents in the "gold" word.
+- Add a shared `SectionShell` wrapper variant (`tone="maroon" | "beige"`) so alternation is enforced structurally, not by ad-hoc classes.
 
-### Layout (mobile) — minimalist, uncluttered
+### 2. Section Alternation Order
 
-The reference on desktop is dense; mobile trims aggressively:
+Apply the A/B pattern top-to-bottom:
 
-- Pill and "Welcome to" stack vertically (pill on top, script below), both centered.
-- Headline scales down to `text-5xl` and stays on two visual lines ("Kalash" / "Kuisine") — cream + gold split preserved.
-- Divider + tagline stay.
-- **Drop the subtitle paragraph on `< sm`** (keep it from `sm` up) — this is the main clutter cut.
-- CTAs stack as **single-column, full-width** in this order:
-  1. View Menu
-  2. Order on Zomato
-  3. Order on Swiggy
-  4. Call Now
-  5. Instagram
-  6. Reserve Table
-  7. Get Directions
-- Scroll indicator hidden on mobile (already the case).
-- Reduce top/bottom padding so the whole block fits within one viewport height.
+```text
+Hero              (existing maroon hero — unchanged visually)
+TrustBar          beige
+About/Our Story   maroon
+Signature Dishes  beige
+Gallery           maroon  (new masonry + existing strip)
+Full Menu         maroon  (already maroon — keep)
+Reviews           beige   (redesigned, matches Image 1)
+Why Choose Us     maroon
+Occasions         beige
+Find Us           maroon
+Footer            (unchanged)
+```
 
-### Background treatment
+Where two maroon sections would touch (Gallery → Full Menu), insert a thin gold hairline divider so the seam reads intentional rather than accidental.
 
-- Keep `heroImg` and `animate-slow-zoom`.
-- Replace the current neutral dark gradient with a **deeper maroon-tinted overlay**: a `bg-primary/55` layer plus a soft radial vignette (`radial-gradient` darker at edges, lighter at center) so the wordmark pops. Bottom fade into `--cream` stays for the section handoff.
+### 3. Reviews Section Rebuild (`src/components/site/Reviews.tsx`)
 
-### Files touched
+Match Image 1 exactly:
+- Beige background, centered eyebrow + serif headline "What Our Guests Say" + gold divider.
+- Rating summary row remains but restyled (smaller, inline under the headline).
+- Pill-shaped filter row: `All Reviews`, `Family Dining`, `Atmosphere`, `Popular Dishes`, `Google Reviews`. Purely visual filter (client-side `useState`) tagging each review; no data-model changes beyond adding a `tags?: string[]` field to `REVIEWS`.
+- Staggered card layout (CSS columns or a 2-col asymmetric grid on desktop, 1-col on mobile) — white cards, generous padding, large decorative quote mark, star row, name + date, subtle shadow, rounded-2xl.
+- Centered premium "Read More Reviews on Google" CTA below.
 
-- `src/components/site/Hero.tsx` — full rewrite of the inner layout, same imports (Button, ReserveMenu, brand icons, lucide icons, CONTACT, heroImg). No new files, no new dependencies.
+### 4. Gallery Section Rebuild (`src/components/site/Gallery.tsx`)
 
-### Not changed
+New order inside the section:
+1. Heading block (eyebrow + serif title + divider) — unchanged copy.
+2. **New masonry grid** (from Images 2 & 3): one large feature tile + smaller supporting tiles in an asymmetric editorial composition. Desktop uses a 3-col CSS grid with row-span/col-span to create the large + small pattern; mobile stacks with preserved hierarchy (feature image first, then pairs). Uses the existing 6 gallery images; rounded-3xl, soft shadow, subtle zoom on hover, click opens existing lightbox.
+3. **Existing rolling Embla strip** kept intact, moved below the masonry with a small "More moments" sublabel.
 
-- `FloatingActions.tsx`, `Nav.tsx`, `ReserveMenu.tsx`, contact data, background image asset, section order in `routes/index.tsx`.
+### 5. Files Touched
+
+- `src/styles.css` — new section tone tokens, spacing scale tweaks.
+- `src/components/site/Reviews.tsx` — full rebuild.
+- `src/data/reviews.ts` — add optional `tags` field to each review.
+- `src/components/site/Gallery.tsx` — add masonry block above existing carousel.
+- Section wrappers on: `TrustBar`, `About`, `SignatureDishes`, `WhyChooseUs`, `Occasions`, `FindUs` — swap background classes to enforce alternation; no structural/content changes.
+- (Optional) small `SectionShell.tsx` helper if it reduces duplication.
+
+### 6. Out of Scope (unchanged)
+
+Hero, Nav, Full Menu, Floating Actions, Footer internals, all copy, all data values, all images, all branding.
+
+---
+
+### Technical Notes
+
+- Masonry: pure CSS grid with `grid-template-rows: masonry`-style faked via `row-span-2` on the feature tile — no JS lib. Falls back cleanly on mobile via `grid-cols-1`.
+- Filter pills: local `useState<string>` filter; "All" shows everything. Tags are metadata only, not persisted.
+- Alternation is applied by editing each section's root `<section>` className to use the new tone tokens; no routing or component API changes.

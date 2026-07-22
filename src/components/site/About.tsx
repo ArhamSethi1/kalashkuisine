@@ -46,7 +46,7 @@ export function About() {
   }, [open, activeIdx]);
 
   return (
-    <section id="about" className="relative px-5 py-24 sm:px-8 sm:py-32">
+    <section id="about" className="section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
       <div ref={ref} className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div className={`reveal ${visible ? "reveal-in" : ""} relative order-2 lg:order-1`}>
           <button
@@ -102,20 +102,21 @@ export function About() {
           style={{ transitionDelay: "160ms" }}
         >
           <SectionEyebrow>About Kalash Kuisine</SectionEyebrow>
-          <h2 className="mt-4 font-display text-3xl leading-[1.1] font-medium text-foreground sm:text-5xl">
-            More Than Just <span className="italic text-primary">A Restaurant</span>
+          <h2 className="mt-4 font-display text-3xl leading-[1.05] font-medium text-[color:var(--cream)] sm:text-5xl">
+            More Than Just <span className="italic text-[color:var(--gold)]">A Restaurant</span>
           </h2>
-          <div className="my-4 h-px w-16 bg-[color:var(--gold)]/60 sm:my-6" />
-          <p className="max-w-lg text-sm leading-relaxed text-foreground/85 sm:text-lg">
+          <div className="my-4 h-px w-16 bg-[color:var(--gold)]/70 sm:my-6" />
+          <p className="max-w-lg text-sm leading-relaxed text-[color:var(--cream)]/85 sm:text-lg">
             At Kalash Kuisine, delicious food, comfortable ambience and genuine hospitality come
             together in one warm place. Every dish is freshly prepared. Every guest is welcomed
             like family.
           </p>
-          <p className="mt-3 max-w-lg text-xs leading-relaxed text-muted-foreground sm:mt-4 sm:text-base">
+          <p className="mt-3 max-w-lg text-xs leading-relaxed text-[color:var(--cream)]/70 sm:mt-4 sm:text-base">
             From rich North Indian classics to comforting Continental favourites, our wide menu
             has something for everyone — whether it&apos;s a quiet weekday dinner or a joyful
             celebration with the people you love most.
           </p>
+
 
           <div className="mt-6 sm:mt-8">
             <Button asChild size="lg">

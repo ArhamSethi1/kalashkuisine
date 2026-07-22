@@ -12,6 +12,7 @@ import g4 from "@/assets/gallery-4.jpg";
 import g5 from "@/assets/gallery-5.jpg";
 import g6 from "@/assets/gallery-6.jpg";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
+import { cn } from "@/lib/utils";
 
 const IMAGES = [
   { src: g1, alt: "Warm dining hall interior at Kalash Kuisine" },
@@ -20,6 +21,16 @@ const IMAGES = [
   { src: g4, alt: "Overhead spread of North Indian dishes" },
   { src: g5, alt: "Cozy booth with patterned accent wall" },
   { src: g6, alt: "Birthday cake being cut with sparklers" },
+];
+
+// Masonry composition — feature tile + supporting tiles, matching reference layout.
+const MASONRY = [
+  { i: 0, className: "sm:col-span-2 sm:row-span-2", aspect: "aspect-square sm:aspect-auto sm:h-full" },
+  { i: 1, className: "", aspect: "aspect-[4/3]" },
+  { i: 2, className: "", aspect: "aspect-[4/3]" },
+  { i: 3, className: "sm:col-span-2", aspect: "aspect-[16/9]" },
+  { i: 4, className: "", aspect: "aspect-[4/3]" },
+  { i: 5, className: "", aspect: "aspect-[4/3]" },
 ];
 
 export function Gallery() {
@@ -44,11 +55,11 @@ export function Gallery() {
   }, [lightbox]);
 
   return (
-    <section id="gallery" className="relative bg-[color:var(--cream)] px-5 py-24 sm:px-8 sm:py-32">
+    <section id="gallery" className="section-beige relative px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Gallery</SectionEyebrow>
-          <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl leading-[1.05] font-medium text-foreground sm:text-6xl">
             Step Inside <span className="italic text-primary">Kalash Kuisine</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
@@ -58,65 +69,100 @@ export function Gallery() {
           <SectionDivider className="mt-6" />
         </div>
 
-        <div className="relative mt-12">
-          <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
-            <div className="flex gap-5">
-              {IMAGES.map((img, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  onClick={() => setLightbox(i)}
-                  aria-label={`Open image ${i + 1} in lightbox`}
-                  className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
-                >
-                  <ImageWithSkeleton
-                    src={img.src}
-                    alt={img.alt}
-                    width={1400}
-                    height={1000}
-                    loading="lazy"
-                    wrapperClassName="aspect-[7/5] w-full overflow-hidden"
-                    className="aspect-[7/5] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-6 flex items-center justify-center gap-3">
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollPrev}
-              aria-label="Previous slide"
-              className="size-11 rounded-full border-border/70"
-            >
-              <ChevronLeft />
-            </Button>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={scrollNext}
-              aria-label="Next slide"
-              className="size-11 rounded-full border-border/70"
-            >
-              <ChevronRight />
-            </Button>
-          </div>
+        {/* Editorial masonry grid */}
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-4 sm:gap-5 sm:auto-rows-[220px] lg:auto-rows-[260px]">
+          {MASONRY.map(({ i, className, aspect }) => {
+            const img = IMAGES[i];
+            return (
+              <button
+                key={i}
+                type="button"
+                onClick={() => setLightbox(i)}
+                aria-label={`Open image ${i + 1} in lightbox`}
+                className={cn(
+                  "group relative cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-all duration-500 hover:-translate-y-1 hover:shadow-lift",
+                  className,
+                )}
+              >
+                <ImageWithSkeleton
+                  src={img.src}
+                  alt={img.alt}
+                  width={1400}
+                  height={1000}
+                  loading="lazy"
+                  wrapperClassName={cn("w-full h-full overflow-hidden", aspect)}
+                  className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
+                />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              </button>
+            );
+          })}
         </div>
 
-        <p className="mt-8 text-center text-sm text-muted-foreground">
-          A welcoming ambience designed for family dinners, celebrations and unforgettable
-          moments.
-        </p>
+        {/* Existing rolling strip — kept, moved below masonry */}
+        <div className="mt-20">
+          <div className="mx-auto mb-8 flex max-w-md items-center justify-center gap-4 text-[color:var(--gold)]">
+            <span className="h-px w-full bg-current opacity-40" />
+            <span className="whitespace-nowrap text-[11px] font-medium uppercase tracking-[0.28em]">
+              More Moments
+            </span>
+            <span className="h-px w-full bg-current opacity-40" />
+          </div>
+
+          <div className="relative">
+            <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
+              <div className="flex gap-5">
+                {IMAGES.map((img, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => setLightbox(i)}
+                    aria-label={`Open image ${i + 1} in lightbox`}
+                    className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
+                  >
+                    <ImageWithSkeleton
+                      src={img.src}
+                      alt={img.alt}
+                      width={1400}
+                      height={1000}
+                      loading="lazy"
+                      wrapperClassName="aspect-[7/5] w-full overflow-hidden"
+                      className="aspect-[7/5] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
+                    />
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-center gap-3">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollPrev}
+                aria-label="Previous slide"
+                className="size-11 rounded-full border-border/70"
+              >
+                <ChevronLeft />
+              </Button>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={scrollNext}
+                aria-label="Next slide"
+                className="size-11 rounded-full border-border/70"
+              >
+                <ChevronRight />
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
 
       <Dialog open={lightbox !== null} onOpenChange={(o) => !o && setLightbox(null)}>
         <DialogContent
           className="max-w-5xl border-none bg-transparent p-0 shadow-none [&>button.absolute]:hidden"
         >
-
           {lightbox !== null && (
             <div className="relative">
               <img

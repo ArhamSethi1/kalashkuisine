@@ -38,15 +38,16 @@ const FEATURES = [
 export function WhyChooseUs() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <section id="why" className="relative bg-[color:var(--cream)] px-5 py-24 sm:px-8 sm:py-32">
+    <section id="why" className="section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Why Guests Return</SectionEyebrow>
-          <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
-            Why Guests Keep <span className="italic text-primary">Coming Back</span>
+          <h2 className="mt-4 font-display text-4xl leading-[1.05] font-medium text-[color:var(--cream)] sm:text-6xl">
+            Why Guests Keep <span className="italic text-[color:var(--gold)]">Coming Back</span>
           </h2>
           <SectionDivider className="mt-6" />
         </div>
+
 
         <div ref={ref} className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map((f, i) => (
