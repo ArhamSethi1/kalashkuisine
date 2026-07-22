@@ -227,3 +227,30 @@
   animation: soft-float 5s ease-in-out infinite;
 }
 
+/* ================ Section tone utilities ================ */
+@utility section-beige {
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(ellipse at top, color-mix(in oklab, var(--gold) 12%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom, color-mix(in oklab, var(--primary) 5%, transparent) 0%, transparent 60%);
+  color: var(--foreground);
+}
+@utility section-maroon {
+  background-color: var(--primary);
+  background-image:
+    radial-gradient(ellipse at top, color-mix(in oklab, var(--gold) 18%, transparent) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom, oklch(0.18 0.08 22) 0%, transparent 65%),
+    repeating-radial-gradient(circle at 50% 50%, color-mix(in oklab, var(--gold) 6%, transparent) 0 1px, transparent 1px 44px);
+  color: var(--primary-foreground);
+}
+@utility section-maroon-text {
+  color: color-mix(in oklab, var(--primary-foreground) 88%, transparent);
+}
+
+/* thin hairline between two same-tone sections */
+@utility gold-hairline {
+  height: 1px;
+  background-image: linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--gold) 55%, transparent) 50%, transparent 100%);
+}
+
+
