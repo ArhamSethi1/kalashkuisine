@@ -8,11 +8,11 @@ import { ImageWithSkeleton } from "./ImageWithSkeleton";
 export function SignatureDishes() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <section id="signature" className="relative px-5 py-24 sm:px-8 sm:py-32">
+    <section id="signature" className="section-beige relative px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Customer Favourites</SectionEyebrow>
-          <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl leading-[1.05] font-medium text-foreground sm:text-6xl">
             Dishes Our Guests <span className="italic text-primary">Love Most</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
@@ -20,6 +20,7 @@ export function SignatureDishes() {
             full menu.
           </p>
           <SectionDivider className="mt-6" />
+
         </div>
 
         <div

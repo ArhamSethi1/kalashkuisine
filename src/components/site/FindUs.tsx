@@ -7,15 +7,16 @@ import { CONTACT } from "@/data/contact";
 
 export function FindUs() {
   return (
-    <section id="contact" className="relative bg-[color:var(--cream)] px-5 py-24 sm:px-8 sm:py-32">
+    <section id="contact" className="section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
           <div>
             <SectionEyebrow>Find Us</SectionEyebrow>
-            <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
-              Visit <span className="italic text-primary">Kalash Kuisine</span>
+            <h2 className="mt-4 font-display text-4xl leading-[1.05] font-medium text-[color:var(--cream)] sm:text-6xl">
+              Visit <span className="italic text-[color:var(--gold)]">Kalash Kuisine</span>
             </h2>
-            <div className="my-6 h-px w-16 bg-[color:var(--gold)]/60" />
+            <div className="my-6 h-px w-16 bg-[color:var(--gold)]/70" />
+
 
             <ul className="space-y-5 text-foreground">
               <li className="flex gap-4">

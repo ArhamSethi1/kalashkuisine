@@ -17,7 +17,7 @@ const OCCASIONS = [
 export function Occasions() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   return (
-    <section id="events" className="relative overflow-hidden px-5 py-24 sm:px-8 sm:py-32">
+    <section id="events" className="section-beige relative overflow-hidden px-5 py-28 sm:px-8 sm:py-36">
       <div className="absolute inset-0 -z-10">
         <img
           src={bg}
@@ -25,16 +25,15 @@ export function Occasions() {
           width={1920}
           height={1080}
           loading="lazy"
-          className="size-full object-cover"
+          className="size-full object-cover opacity-40"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--cream)] via-[color:var(--cream)]/85 to-[color:var(--cream)]/95" />
-        <div className="absolute inset-0 bg-primary/8" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[color:var(--cream)] via-[color:var(--cream)]/90 to-[color:var(--cream)]/95" />
       </div>
 
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-2xl text-center">
           <SectionEyebrow>Celebrate</SectionEyebrow>
-          <h2 className="mt-4 font-display text-4xl leading-[1.1] font-medium text-foreground sm:text-5xl">
+          <h2 className="mt-4 font-display text-4xl leading-[1.05] font-medium text-foreground sm:text-6xl">
             Celebrate Every <span className="italic text-primary">Special Moment</span>
           </h2>
           <p className="mt-4 text-muted-foreground">
@@ -42,6 +41,7 @@ export function Occasions() {
             perfect setting for the moments that matter.
           </p>
         </div>
+
 
         <div ref={ref} className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {OCCASIONS.map((o, i) => (
