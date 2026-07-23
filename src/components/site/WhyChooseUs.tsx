@@ -53,7 +53,7 @@ export function WhyChooseUs() {
           {FEATURES.map((f, i) => (
             <div
               key={f.title}
-              className={`reveal ${visible ? "reveal-in" : ""} group relative overflow-hidden rounded-3xl border border-border/60 bg-card p-7 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift`}
+              className={`reveal ${visible ? "reveal-in" : ""} group relative overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-black/25 p-7 shadow-soft transition-all duration-500 hover:-translate-y-1.5 hover:shadow-lift hover:border-[color:var(--gold)]/60`}
               style={{ transitionDelay: `${i * 80}ms` }}
             >
               <div className="absolute -right-8 -top-8 size-32 rounded-full bg-[color:var(--gold)]/8 blur-2xl transition-all duration-700 group-hover:bg-[color:var(--gold)]/15" />
@@ -61,10 +61,10 @@ export function WhyChooseUs() {
                 <div className="grid size-12 place-items-center rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 text-[color:var(--gold)] transition-transform duration-500 group-hover:scale-105">
                   <f.icon className="size-6" />
                 </div>
-                <h3 className="mt-5 font-display text-xl font-semibold text-foreground">
+                <h3 className="mt-5 font-display text-xl font-semibold text-[color:var(--gold)]">
                   {f.title}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{f.text}</p>
+                <p className="mt-2 text-sm leading-relaxed text-[color:var(--cream)]/85">{f.text}</p>
               </div>
             </div>
           ))}
