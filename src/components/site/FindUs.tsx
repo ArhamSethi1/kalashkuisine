@@ -68,25 +68,40 @@ export function FindUs() {
 
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button asChild>
+              <Button
+                asChild
+                className="bg-[color:var(--gold)] text-[color:var(--ink)] hover:bg-[color:var(--gold-soft)]"
+              >
                 <a href={CONTACT.mapsHref} target="_blank" rel="noreferrer">
                   <MapPin />
                   Get Directions
                 </a>
               </Button>
-              <Button asChild variant="outline">
+              <Button
+                asChild
+                variant="outline"
+                className="border-[color:var(--gold)]/60 bg-white/5 text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)] hover:border-[color:var(--gold)]"
+              >
                 <a href={CONTACT.phoneHref}>
                   <Phone />
                   Call Now
                 </a>
               </Button>
-              <Button asChild variant="outline">
+              <Button
+                asChild
+                variant="outline"
+                className="border-[color:var(--gold)]/60 bg-white/5 text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)] hover:border-[color:var(--gold)]"
+              >
                 <a href={CONTACT.whatsappHref} target="_blank" rel="noreferrer">
                   <MessageCircle />
                   WhatsApp
                 </a>
               </Button>
-              <Button asChild variant="outline">
+              <Button
+                asChild
+                variant="outline"
+                className="border-[color:var(--gold)]/60 bg-white/5 text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)] hover:border-[color:var(--gold)]"
+              >
                 <a href={CONTACT.instagramHref} target="_blank" rel="noreferrer">
                   <InstagramGradientIcon className="size-4" />
                   Instagram
