@@ -5,22 +5,34 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SectionDivider, SectionEyebrow } from "./SectionDivider";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-import g5 from "@/assets/gallery-5.jpg";
-import g6 from "@/assets/gallery-6.jpg";
+import g1 from "@/assets/gallery-facade.webp.asset.json";
+import g2 from "@/assets/gallery-mainhall.webp.asset.json";
+import g3 from "@/assets/gallery-hall.webp.asset.json";
+import g4 from "@/assets/gallery-tables.webp.asset.json";
+import g5 from "@/assets/gallery-booth.webp.asset.json";
+import g6 from "@/assets/gallery-corridor.webp.asset.json";
+import m1 from "@/assets/moments-shake.webp.asset.json";
+import m2 from "@/assets/moments-signage.webp.asset.json";
+import m3 from "@/assets/moments-decor.webp.asset.json";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { cn } from "@/lib/utils";
 
 const IMAGES = [
-  { src: g1, alt: "Warm dining hall interior at Kalash Kuisine" },
-  { src: g2, alt: "Elegantly set dinner table for two" },
-  { src: g3, alt: "Family celebrating over dinner" },
-  { src: g4, alt: "Overhead spread of North Indian dishes" },
-  { src: g5, alt: "Cozy booth with patterned accent wall" },
-  { src: g6, alt: "Birthday cake being cut with sparklers" },
+  { src: g1.url, alt: "Kalash Kuisine storefront with Rajasthani jharokha arches at night" },
+  { src: g2.url, alt: "Spacious main dining hall with plush seating and Jaipur skyline mural" },
+  { src: g3.url, alt: "Entrance corridor with cusped arch and star lanterns" },
+  { src: g4.url, alt: "Dining tables set with menus under coffered ceiling" },
+  { src: g5.url, alt: "Private booth framed by golden jaali screen" },
+  { src: g6.url, alt: "Long dining hall with marigold-yellow jaali arches" },
+];
+
+const MOMENTS = [
+  { src: m1.url, alt: "Signature cold coffee shake with chocolate drizzle" },
+  { src: m2.url, alt: "Illuminated Kalash Kuisine signboard at night" },
+  { src: m3.url, alt: "Decorative paper stars above the outdoor seating corridor" },
+  { src: g2.url, alt: "Warm dining hall interior" },
+  { src: g4.url, alt: "Elegantly set dinner tables" },
+  { src: g5.url, alt: "Cozy booth with golden accent screen" },
 ];
 
 // Masonry composition — feature tile + supporting tiles, matching reference layout.
@@ -32,6 +44,8 @@ const MASONRY = [
   { i: 4, className: "", aspect: "aspect-[4/3]" },
   { i: 5, className: "", aspect: "aspect-[4/3]" },
 ];
+
+const ALL_IMAGES = [...IMAGES, ...MOMENTS];
 
 export function Gallery() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -46,9 +60,9 @@ export function Gallery() {
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % IMAGES.length));
+      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % ALL_IMAGES.length));
       if (e.key === "ArrowLeft")
-        setLightbox((i) => (i === null ? null : (i - 1 + IMAGES.length) % IMAGES.length));
+        setLightbox((i) => (i === null ? null : (i - 1 + ALL_IMAGES.length) % ALL_IMAGES.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -112,12 +126,14 @@ export function Gallery() {
           <div className="relative">
             <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
               <div className="flex gap-5">
-                {IMAGES.map((img, i) => (
+                {MOMENTS.map((img, i) => {
+                  const idx = IMAGES.length + i;
+                  return (
                   <button
-                    key={i}
+                    key={idx}
                     type="button"
-                    onClick={() => setLightbox(i)}
-                    aria-label={`Open image ${i + 1} in lightbox`}
+                    onClick={() => setLightbox(idx)}
+                    aria-label={`Open image ${idx + 1} in lightbox`}
                     className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
                   >
                     <ImageWithSkeleton
@@ -131,7 +147,8 @@ export function Gallery() {
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -166,8 +183,8 @@ export function Gallery() {
           {lightbox !== null && (
             <div className="relative">
               <img
-                src={IMAGES[lightbox].src}
-                alt={IMAGES[lightbox].alt}
+                src={ALL_IMAGES[lightbox].src}
+                alt={ALL_IMAGES[lightbox].alt}
                 className="max-h-[85vh] w-full rounded-2xl object-contain"
               />
               <Button
@@ -185,7 +202,7 @@ export function Gallery() {
                 variant="secondary"
                 className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full"
                 onClick={() =>
-                  setLightbox((i) => (i === null ? null : (i - 1 + IMAGES.length) % IMAGES.length))
+                  setLightbox((i) => (i === null ? null : (i - 1 + ALL_IMAGES.length) % ALL_IMAGES.length))
                 }
               >
                 <ChevronLeft />
@@ -195,7 +212,7 @@ export function Gallery() {
                 size="icon"
                 variant="secondary"
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full"
-                onClick={() => setLightbox((i) => (i === null ? null : (i + 1) % IMAGES.length))}
+                onClick={() => setLightbox((i) => (i === null ? null : (i + 1) % ALL_IMAGES.length))}
               >
                 <ChevronRight />
               </Button>
