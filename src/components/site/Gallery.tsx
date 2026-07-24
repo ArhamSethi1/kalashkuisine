@@ -6,43 +6,61 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SectionDivider, SectionEyebrow } from "./SectionDivider";
 import g1 from "@/assets/gallery-facade.webp.asset.json";
-import g2 from "@/assets/gallery-mainhall.webp.asset.json";
-import g3 from "@/assets/gallery-hall.webp.asset.json";
-import g4 from "@/assets/gallery-tables.webp.asset.json";
+import g2 from "@/assets/gallery-mural.webp.asset.json";
+import g3 from "@/assets/gallery-window.webp.asset.json";
+import g4 from "@/assets/gallery-signage2.webp.asset.json";
 import g5 from "@/assets/gallery-booth.webp.asset.json";
 import g6 from "@/assets/gallery-corridor.webp.asset.json";
+import g7 from "@/assets/dish-thali.webp.asset.json";
+import g8 from "@/assets/dish-paneer.webp.asset.json";
 import m1 from "@/assets/moments-shake.webp.asset.json";
 import m2 from "@/assets/moments-signage.webp.asset.json";
 import m3 from "@/assets/moments-decor.webp.asset.json";
+import s1 from "@/assets/moment-jan27.webp.asset.json";
+import s2 from "@/assets/moment-2398.webp.asset.json";
+import s3 from "@/assets/moment-5135.webp.asset.json";
+import s4 from "@/assets/moment-5195.webp.asset.json";
+import s5 from "@/assets/moment-5249.webp.asset.json";
+import s6 from "@/assets/moment-5303.webp.asset.json";
+import s7 from "@/assets/moment-jan03.webp.asset.json";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { cn } from "@/lib/utils";
 
 const IMAGES = [
   { src: g1.url, alt: "Kalash Kuisine storefront with Rajasthani jharokha arches at night" },
-  { src: g2.url, alt: "Spacious main dining hall with plush seating and Jaipur skyline mural" },
-  { src: g3.url, alt: "Entrance corridor with cusped arch and star lanterns" },
-  { src: g4.url, alt: "Dining tables set with menus under coffered ceiling" },
+  { src: g2.url, alt: "Pink dining hall with a hand-painted Jaipur skyline mural above plush seating" },
+  { src: g3.url, alt: "Coffered ceiling dining area with cusped arch window screen and city view" },
+  { src: g4.url, alt: "Illuminated circular Kalash Kuisine logo signage above the entrance jaali" },
   { src: g5.url, alt: "Private booth framed by golden jaali screen" },
   { src: g6.url, alt: "Long dining hall with marigold-yellow jaali arches" },
+  { src: g7.url, alt: "Signature Rajasthani thali with dal, curries, rice, roti and gulab jamun" },
+  { src: g8.url, alt: "Rich paneer curry served in a brass kadhai with cream swirl garnish" },
 ];
 
 const MOMENTS = [
   { src: m1.url, alt: "Signature cold coffee shake with chocolate drizzle" },
   { src: m2.url, alt: "Illuminated Kalash Kuisine signboard at night" },
   { src: m3.url, alt: "Decorative paper stars above the outdoor seating corridor" },
-  { src: g2.url, alt: "Warm dining hall interior" },
-  { src: g4.url, alt: "Elegantly set dinner tables" },
-  { src: g5.url, alt: "Cozy booth with golden accent screen" },
+  { src: s1.url, alt: "Warm evening moment at Kalash Kuisine" },
+  { src: s2.url, alt: "Detail of the restaurant interior" },
+  { src: s3.url, alt: "Chef-plated dish at Kalash Kuisine" },
+  { src: s4.url, alt: "Guests enjoying a meal at Kalash Kuisine" },
+  { src: s5.url, alt: "Signature dish served tableside" },
+  { src: s6.url, alt: "Beautifully plated Kalash Kuisine specialty" },
+  { src: s7.url, alt: "Celebration moment at Kalash Kuisine" },
 ];
 
-// Masonry composition — feature tile + supporting tiles, matching reference layout.
+// Masonry composition — feature tile + supporting tiles.
+// Tiles 6 and 7 fill the empty desktop cells beside the last row (hidden on mobile).
 const MASONRY = [
-  { i: 0, className: "sm:col-span-2 sm:row-span-2", aspect: "aspect-square sm:aspect-auto sm:h-full" },
-  { i: 1, className: "", aspect: "aspect-[4/3]" },
-  { i: 2, className: "", aspect: "aspect-[4/3]" },
-  { i: 3, className: "sm:col-span-2", aspect: "aspect-[16/9]" },
-  { i: 4, className: "", aspect: "aspect-[4/3]" },
-  { i: 5, className: "", aspect: "aspect-[4/3]" },
+  { i: 0, className: "sm:col-span-2 sm:row-span-2", aspect: "aspect-square sm:aspect-auto sm:h-full", hideMobile: false },
+  { i: 1, className: "", aspect: "aspect-[4/3]", hideMobile: false },
+  { i: 2, className: "", aspect: "aspect-[4/3]", hideMobile: false },
+  { i: 3, className: "sm:col-span-2", aspect: "aspect-[16/9]", hideMobile: false },
+  { i: 4, className: "", aspect: "aspect-[4/3]", hideMobile: false },
+  { i: 5, className: "", aspect: "aspect-[4/3]", hideMobile: false },
+  { i: 6, className: "hidden sm:block", aspect: "aspect-[4/3]", hideMobile: true },
+  { i: 7, className: "hidden sm:block", aspect: "aspect-[4/3]", hideMobile: true },
 ];
 
 const ALL_IMAGES = [...IMAGES, ...MOMENTS];
