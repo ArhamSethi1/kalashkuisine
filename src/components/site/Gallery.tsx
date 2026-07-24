@@ -5,22 +5,34 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SectionDivider, SectionEyebrow } from "./SectionDivider";
-import g1 from "@/assets/gallery-1.jpg";
-import g2 from "@/assets/gallery-2.jpg";
-import g3 from "@/assets/gallery-3.jpg";
-import g4 from "@/assets/gallery-4.jpg";
-import g5 from "@/assets/gallery-5.jpg";
-import g6 from "@/assets/gallery-6.jpg";
+import g1 from "@/assets/gallery-facade.webp.asset.json";
+import g2 from "@/assets/gallery-mainhall.webp.asset.json";
+import g3 from "@/assets/gallery-hall.webp.asset.json";
+import g4 from "@/assets/gallery-tables.webp.asset.json";
+import g5 from "@/assets/gallery-booth.webp.asset.json";
+import g6 from "@/assets/gallery-corridor.webp.asset.json";
+import m1 from "@/assets/moments-shake.webp.asset.json";
+import m2 from "@/assets/moments-signage.webp.asset.json";
+import m3 from "@/assets/moments-decor.webp.asset.json";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { cn } from "@/lib/utils";
 
 const IMAGES = [
-  { src: g1, alt: "Warm dining hall interior at Kalash Kuisine" },
-  { src: g2, alt: "Elegantly set dinner table for two" },
-  { src: g3, alt: "Family celebrating over dinner" },
-  { src: g4, alt: "Overhead spread of North Indian dishes" },
-  { src: g5, alt: "Cozy booth with patterned accent wall" },
-  { src: g6, alt: "Birthday cake being cut with sparklers" },
+  { src: g1.url, alt: "Kalash Kuisine storefront with Rajasthani jharokha arches at night" },
+  { src: g2.url, alt: "Spacious main dining hall with plush seating and Jaipur skyline mural" },
+  { src: g3.url, alt: "Entrance corridor with cusped arch and star lanterns" },
+  { src: g4.url, alt: "Dining tables set with menus under coffered ceiling" },
+  { src: g5.url, alt: "Private booth framed by golden jaali screen" },
+  { src: g6.url, alt: "Long dining hall with marigold-yellow jaali arches" },
+];
+
+const MOMENTS = [
+  { src: m1.url, alt: "Signature cold coffee shake with chocolate drizzle" },
+  { src: m2.url, alt: "Illuminated Kalash Kuisine signboard at night" },
+  { src: m3.url, alt: "Decorative paper stars above the outdoor seating corridor" },
+  { src: g2.url, alt: "Warm dining hall interior" },
+  { src: g4.url, alt: "Elegantly set dinner tables" },
+  { src: g5.url, alt: "Cozy booth with golden accent screen" },
 ];
 
 // Masonry composition — feature tile + supporting tiles, matching reference layout.
