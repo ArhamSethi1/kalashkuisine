@@ -13,12 +13,20 @@ export function Hero() {
       {/* Background */}
       <div className="absolute inset-0">
         <img
-          src={heroImg}
+          src={heroMobileAsset.url}
+          alt="Warm elegant interior of Kalash Kuisine restaurant in Mansarovar, Jaipur"
+          width={1200}
+          height={1800}
+          className="size-full object-cover animate-slow-zoom sm:hidden"
+        />
+        <img
+          src={heroDesktopAsset.url}
           alt="Warm elegant interior of Kalash Kuisine restaurant in Mansarovar, Jaipur"
           width={1920}
           height={1200}
-          className="size-full object-cover animate-slow-zoom"
+          className="hidden size-full object-cover animate-slow-zoom sm:block"
         />
+
         {/* Maroon tint — matches reference */}
         <div className="absolute inset-0 bg-[color:var(--primary)]/70 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[#2a0608]/40" />
