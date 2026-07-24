@@ -45,6 +45,8 @@ const MASONRY = [
   { i: 5, className: "", aspect: "aspect-[4/3]" },
 ];
 
+const ALL_IMAGES = [...IMAGES, ...MOMENTS];
+
 export function Gallery() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
@@ -58,9 +60,9 @@ export function Gallery() {
   useEffect(() => {
     if (lightbox === null) return;
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % IMAGES.length));
+      if (e.key === "ArrowRight") setLightbox((i) => (i === null ? null : (i + 1) % ALL_IMAGES.length));
       if (e.key === "ArrowLeft")
-        setLightbox((i) => (i === null ? null : (i - 1 + IMAGES.length) % IMAGES.length));
+        setLightbox((i) => (i === null ? null : (i - 1 + ALL_IMAGES.length) % ALL_IMAGES.length));
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
