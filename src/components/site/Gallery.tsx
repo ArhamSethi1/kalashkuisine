@@ -124,12 +124,14 @@ export function Gallery() {
           <div className="relative">
             <div className="overflow-hidden rounded-3xl" ref={emblaRef}>
               <div className="flex gap-5">
-                {IMAGES.map((img, i) => (
+                {MOMENTS.map((img, i) => {
+                  const idx = IMAGES.length + i;
+                  return (
                   <button
-                    key={i}
+                    key={idx}
                     type="button"
-                    onClick={() => setLightbox(i)}
-                    aria-label={`Open image ${i + 1} in lightbox`}
+                    onClick={() => setLightbox(idx)}
+                    aria-label={`Open image ${idx + 1} in lightbox`}
                     className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
                   >
                     <ImageWithSkeleton
@@ -143,7 +145,8 @@ export function Gallery() {
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                   </button>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
