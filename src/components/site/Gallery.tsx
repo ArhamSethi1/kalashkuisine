@@ -183,8 +183,8 @@ export function Gallery() {
           {lightbox !== null && (
             <div className="relative">
               <img
-                src={IMAGES[lightbox].src}
-                alt={IMAGES[lightbox].alt}
+                src={ALL_IMAGES[lightbox].src}
+                alt={ALL_IMAGES[lightbox].alt}
                 className="max-h-[85vh] w-full rounded-2xl object-contain"
               />
               <Button
@@ -202,7 +202,7 @@ export function Gallery() {
                 variant="secondary"
                 className="absolute left-2 top-1/2 -translate-y-1/2 rounded-full"
                 onClick={() =>
-                  setLightbox((i) => (i === null ? null : (i - 1 + IMAGES.length) % IMAGES.length))
+                  setLightbox((i) => (i === null ? null : (i - 1 + ALL_IMAGES.length) % ALL_IMAGES.length))
                 }
               >
                 <ChevronLeft />
@@ -212,7 +212,7 @@ export function Gallery() {
                 size="icon"
                 variant="secondary"
                 className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full"
-                onClick={() => setLightbox((i) => (i === null ? null : (i + 1) % IMAGES.length))}
+                onClick={() => setLightbox((i) => (i === null ? null : (i + 1) % ALL_IMAGES.length))}
               >
                 <ChevronRight />
               </Button>
