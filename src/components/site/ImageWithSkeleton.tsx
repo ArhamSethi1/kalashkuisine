@@ -1,19 +1,22 @@
 import { useState, type ImgHTMLAttributes } from "react";
-import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
   wrapperClassName?: string;
   skeletonClassName?: string;
+  /** Tailwind bg class for the blurred placeholder tint. */
+  placeholderClassName?: string;
 };
 
 /**
- * Image with a skeleton that only appears if load takes > 0.8s.
- * Skeleton is CSS-delayed to avoid flashing on fast loads.
+ * Image with a soft blurred cream/gold placeholder that fades away when the
+ * image finishes loading. The placeholder is always visible so tiles never
+ * appear blank while a large photo streams in.
  */
 export function ImageWithSkeleton({
   wrapperClassName,
   skeletonClassName,
+  placeholderClassName,
   className,
   onLoad,
   ...img
@@ -21,16 +24,19 @@ export function ImageWithSkeleton({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className={cn("relative", wrapperClassName)}>
-      {!loaded && (
-        <Skeleton
-          className={cn(
-            "absolute inset-0 h-full w-full rounded-none",
-            "opacity-0 [animation:skeleton-appear_0.3s_ease-out_0.8s_forwards]",
-            skeletonClassName,
-          )}
-        />
-      )}
+    <div className={cn("relative overflow-hidden bg-[color:var(--muted)]", wrapperClassName)}>
+      {/* Warm blurred placeholder — visible immediately, fades out on load */}
+      <div
+        aria-hidden
+        className={cn(
+          "absolute inset-0 transition-opacity duration-500",
+          "bg-gradient-to-br from-[color:var(--cream)] via-[color:var(--muted)] to-[color:var(--gold-soft)]/40",
+          loaded ? "opacity-0" : "opacity-100",
+          placeholderClassName,
+          skeletonClassName,
+        )}
+        style={{ filter: "blur(12px)" }}
+      />
       <img
         {...img}
         onLoad={(e) => {
@@ -38,7 +44,7 @@ export function ImageWithSkeleton({
           onLoad?.(e);
         }}
         className={cn(
-          "transition-opacity duration-500",
+          "relative transition-opacity duration-500",
           loaded ? "opacity-100" : "opacity-0",
           className,
         )}

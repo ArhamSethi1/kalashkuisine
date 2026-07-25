@@ -31,7 +31,7 @@ export function SignatureDishes() {
             <article
               key={d.name}
               className={`reveal ${visible ? "reveal-in" : ""} group overflow-hidden rounded-3xl border border-[color:var(--gold)]/30 bg-black/25 shadow-soft transition-all duration-500 hover:-translate-y-2 hover:shadow-lift hover:border-[color:var(--gold)]/60`}
-              style={{ transitionDelay: `${i * 90}ms` }}
+              style={{ transitionDelay: `${i * 45}ms` }}
             >
               <div className="relative overflow-hidden">
                 <ImageWithSkeleton
@@ -62,7 +62,11 @@ export function SignatureDishes() {
 
 
         <div className="mt-12 flex justify-center">
-          <Button asChild size="lg" variant="outline">
+          <Button
+            asChild
+            size="lg"
+            className="border border-[color:var(--gold)]/70 bg-gradient-to-br from-[color:var(--primary)] to-[oklch(0.24_0.11_20)] text-[color:var(--gold)] shadow-glow hover:from-[oklch(0.32_0.14_20)] hover:to-[oklch(0.2_0.11_20)] hover:text-[color:var(--gold-soft)]"
+          >
             <a href="#menu">View Full Menu</a>
           </Button>
         </div>
