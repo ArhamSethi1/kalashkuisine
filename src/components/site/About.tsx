@@ -2,32 +2,35 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import aboutImg from "@/assets/about-detail.jpg";
-import trailer1 from "@/assets/kalash-trailer-1.mp4.asset.json";
-import trailer2 from "@/assets/kalash-trailer-2.mp4.asset.json";
+import playCover from "@/assets/about-play-cover.png.asset.json";
+import trailer1Mp4 from "@/assets/kalash-trailer-1-v2.mp4.asset.json";
+import trailer2Mp4 from "@/assets/kalash-trailer-2-v2.mp4.asset.json";
+import trailer1Webm from "@/assets/kalash-trailer-1.webm.asset.json";
+import trailer2Webm from "@/assets/kalash-trailer-2.webm.asset.json";
+import clip3Mp4 from "@/assets/kalash-clip-3.mp4.asset.json";
+import clip4Mp4 from "@/assets/kalash-clip-4.mp4.asset.json";
+import clip5Mp4 from "@/assets/kalash-clip-5.mp4.asset.json";
+import clip3Webm from "@/assets/kalash-clip-3.webm.asset.json";
+import clip4Webm from "@/assets/kalash-clip-4.webm.asset.json";
+import clip5Webm from "@/assets/kalash-clip-5.webm.asset.json";
 import { SectionEyebrow } from "./SectionDivider";
 import { useReveal } from "@/hooks/useReveal";
 
-const VIDEOS = [
-  { src: trailer1.url, title: "Kalash Kuisine — Trailer 1" },
-  { src: trailer2.url, title: "Kalash Kuisine — Trailer 2" },
+type Src = { mp4: string; webm?: string; title: string };
+
+const VIDEOS: Src[] = [
+  { mp4: trailer1Mp4.url, webm: trailer1Webm.url, title: "Kalash Kuisine — Trailer 1" },
+  { mp4: trailer2Mp4.url, webm: trailer2Webm.url, title: "Kalash Kuisine — Trailer 2" },
+  { mp4: clip3Mp4.url, webm: clip3Webm.url, title: "Kalash Kuisine — Moment 1" },
+  { mp4: clip4Mp4.url, webm: clip4Webm.url, title: "Kalash Kuisine — Moment 2" },
+  { mp4: clip5Mp4.url, webm: clip5Webm.url, title: "Kalash Kuisine — Moment 3" },
 ];
 
 export function About() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const [open, setOpen] = useState(false);
-  const [previewIdx, setPreviewIdx] = useState(0);
   const [activeIdx, setActiveIdx] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
-
-  // Auto-rotate preview thumbnails while closed
-  useEffect(() => {
-    if (open) return;
-    const t = setInterval(() => {
-      setPreviewIdx((i) => (i + 1) % VIDEOS.length);
-    }, 3500);
-    return () => clearInterval(t);
-  }, [open]);
 
   const openPlayer = () => {
     setActiveIdx(0);
@@ -40,8 +43,15 @@ export function About() {
 
   useEffect(() => {
     if (open && videoRef.current) {
-      videoRef.current.load();
-      void videoRef.current.play().catch(() => {});
+      const v = videoRef.current;
+      v.muted = false;
+      v.load();
+      // Try unmuted first (some browsers allow after user gesture);
+      // fall back to muted autoplay so playback never stalls.
+      v.play().catch(() => {
+        v.muted = true;
+        v.play().catch(() => {});
+      });
     }
   }, [open, activeIdx]);
 
@@ -56,36 +66,20 @@ export function About() {
             className="group relative block w-full overflow-hidden rounded-3xl shadow-lift focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <img
-              src={aboutImg}
-              alt="Warm brass lamp and floral detail inside Kalash Kuisine"
+              src={playCover.url}
+              alt="Kalash Kuisine staff serving a traditional thali and lassi"
               width={1200}
               height={1400}
               loading="lazy"
               className="aspect-[4/5] w-full object-cover transition-transform duration-[1200ms] group-hover:scale-[1.03]"
             />
-            {/* dark overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/15 to-black/25" />
-
-            {/* Play icon */}
             <div className="absolute inset-0 flex items-center justify-center">
               <span className="relative flex size-20 items-center justify-center rounded-full bg-white/95 shadow-glow transition-transform duration-300 group-hover:scale-110 sm:size-24">
                 <span className="absolute inset-0 animate-ping rounded-full bg-white/40" />
                 <Play className="relative ml-1 size-8 fill-primary text-primary sm:size-10" />
               </span>
             </div>
-
-            {/* Preview indicator dots */}
-            <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-1.5">
-              {VIDEOS.map((_, i) => (
-                <span
-                  key={i}
-                  className={`h-1.5 rounded-full transition-all duration-500 ${
-                    i === previewIdx ? "w-6 bg-white" : "w-1.5 bg-white/50"
-                  }`}
-                />
-              ))}
-            </div>
-
             <div className="absolute left-4 top-4 rounded-full bg-black/45 px-3 py-1 text-xs font-medium uppercase tracking-widest text-white backdrop-blur-sm">
               Watch our story
             </div>
@@ -99,7 +93,7 @@ export function About() {
 
         <div
           className={`reveal ${visible ? "reveal-in" : ""} order-1 lg:order-2`}
-          style={{ transitionDelay: "160ms" }}
+          style={{ transitionDelay: "80ms" }}
         >
           <SectionEyebrow>About Kalash Kuisine</SectionEyebrow>
           <h2 className="mt-4 font-display text-3xl leading-[1.05] font-medium text-[color:var(--cream)] sm:text-5xl">
@@ -116,7 +110,6 @@ export function About() {
             has something for everyone — whether it&apos;s a quiet weekday dinner or a joyful
             celebration with the people you love most.
           </p>
-
 
           <div className="mt-6 sm:mt-8">
             <Button asChild size="lg">
@@ -136,18 +129,21 @@ export function About() {
           <div className="relative inline-block">
             <video
               ref={videoRef}
-              key={VIDEOS[activeIdx].src}
+              key={VIDEOS[activeIdx].mp4}
               controls
               autoPlay
-              muted
               playsInline
-              {...({ "webkit-playsinline": "true" } as Record<string, string>)}
+              {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
               preload="metadata"
               className="block max-h-[88vh] max-w-[95vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
             >
-              <source src={VIDEOS[activeIdx].src} type="video/mp4" />
+              {/* MP4 first so iOS Safari (no WebM support) always has a playable source */}
+              <source src={VIDEOS[activeIdx].mp4} type="video/mp4" />
+              {VIDEOS[activeIdx].webm && (
+                <source src={VIDEOS[activeIdx].webm} type="video/webm" />
+              )}
               Your browser can't play this video.{" "}
-              <a href={VIDEOS[activeIdx].src} className="underline">
+              <a href={VIDEOS[activeIdx].mp4} className="underline">
                 Open it directly
               </a>
               .

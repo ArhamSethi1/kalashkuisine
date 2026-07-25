@@ -126,6 +126,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "preconnect", href: "https://lovable.app" },
+      {
+        rel: "preload",
+        as: "image",
+        href: "/__l5e/assets-v1/c9412120-0b2b-493d-b5e0-44ccba6660a7/hero-mobile.webp",
+        media: "(max-width: 639px)",
+        fetchpriority: "high",
+      } as Record<string, string>,
+      {
+        rel: "preload",
+        as: "image",
+        href: "/__l5e/assets-v1/aac15ad6-4408-449b-bec9-e3f720e48a9b/hero-desktop.webp",
+        media: "(min-width: 640px)",
+        fetchpriority: "high",
+      } as Record<string, string>,
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap",

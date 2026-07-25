@@ -121,7 +121,7 @@ export function Gallery() {
                   alt={img.alt}
                   width={1400}
                   height={1000}
-                  loading="lazy"
+                  loading="eager" decoding="async"
                   wrapperClassName={cn("w-full h-full overflow-hidden", aspect)}
                   className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.06]"
                 />
@@ -159,7 +159,7 @@ export function Gallery() {
                       alt={img.alt}
                       width={1400}
                       height={1000}
-                      loading="lazy"
+                      loading="eager" decoding="async"
                       wrapperClassName="aspect-[7/5] w-full overflow-hidden"
                       className="aspect-[7/5] w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
                     />
