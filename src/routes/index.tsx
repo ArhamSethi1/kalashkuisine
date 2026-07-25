@@ -157,9 +157,9 @@ function Index() {
         <WhyChooseUs />
         <RajasthaniBorder tone="maroon-to-cream" />
         <Occasions />
-        <RajasthaniBorder tone="cream" />
+        <RajasthaniBorder tone="cream-to-maroon" />
         <FinalCta />
-        <RajasthaniBorder tone="maroon-to-cream" />
+        <RajasthaniBorder tone="maroon" />
         <FindUs />
       </main>
       <Footer />
