@@ -145,21 +145,21 @@ function Index() {
         <Hero />
         <TrustBar />
         <About />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="maroon-to-cream" />
         <Gallery />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="cream-to-maroon" />
         <SignatureDishes />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="maroon" />
         <FullMenu />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="maroon-to-cream" />
         <Reviews />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="cream-to-maroon" />
         <WhyChooseUs />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="maroon-to-cream" />
         <Occasions />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="cream" />
         <FinalCta />
-        <RajasthaniBorder />
+        <RajasthaniBorder tone="maroon-to-cream" />
         <FindUs />
       </main>
       <Footer />
