@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SectionDivider, SectionEyebrow } from "./SectionDivider";
 import g1 from "@/assets/gallery-facade.webp.asset.json";
@@ -210,6 +210,7 @@ export function Gallery() {
         <DialogContent
           className="max-w-5xl border-none bg-transparent p-0 shadow-none [&>button.absolute]:hidden"
         >
+          <DialogTitle className="sr-only">Kalash Kuisine gallery image</DialogTitle>
           {lightbox !== null && (
             <div className="relative">
               <img

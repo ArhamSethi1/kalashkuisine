@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import playCover from "@/assets/about-play-cover.png.asset.json";
 import trailer1Mp4 from "@/assets/kalash-trailer-1-v2.mp4.asset.json";
 import trailer2Mp4 from "@/assets/kalash-trailer-2-v2.mp4.asset.json";
@@ -169,6 +169,7 @@ export function About() {
         <DialogContent
           className="w-auto max-w-[96vw] border-none bg-transparent p-0 shadow-none data-[state=open]:animate-scale-in sm:max-w-[min(96vw,92vh)] [&>button.absolute]:hidden"
         >
+          <DialogTitle className="sr-only">Kalash Kuisine video player</DialogTitle>
           <div className="relative inline-block">
             <video
               ref={videoRef}

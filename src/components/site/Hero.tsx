@@ -19,7 +19,7 @@ export function Hero() {
           height={1800}
           loading="eager"
           decoding="async"
-          {...({ fetchpriority: "high" } as Record<string, string>)}
+          fetchPriority="high"
           className="size-full object-cover animate-slow-zoom sm:hidden"
         />
         <img
@@ -29,7 +29,7 @@ export function Hero() {
           height={1200}
           loading="eager"
           decoding="async"
-          {...({ fetchpriority: "high" } as Record<string, string>)}
+          fetchPriority="high"
           className="hidden size-full object-cover animate-slow-zoom sm:block"
         />
 
