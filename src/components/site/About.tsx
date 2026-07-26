@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import playCover from "@/assets/about-play-cover.png.asset.json";
 import trailer1Mp4 from "@/assets/kalash-trailer-1-v2.mp4.asset.json";
@@ -30,7 +30,12 @@ export function About() {
   const { ref, visible } = useReveal<HTMLDivElement>();
   const [open, setOpen] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const activeVideo = VIDEOS[activeIdx];
+  const progress = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
   const openPlayer = () => {
     setActiveIdx(0);
@@ -41,19 +46,57 @@ export function About() {
     setActiveIdx((i) => (i + dir + VIDEOS.length) % VIDEOS.length);
   };
 
-  useEffect(() => {
-    if (open && videoRef.current) {
-      const v = videoRef.current;
-      v.muted = false;
-      v.load();
-      // Try unmuted first (some browsers allow after user gesture);
-      // fall back to muted autoplay so playback never stalls.
-      v.play().catch(() => {
-        v.muted = true;
-        v.play().catch(() => {});
+  const syncVideoTime = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    setCurrentTime(video.currentTime);
+    setDuration(Number.isFinite(video.duration) ? video.duration : 0);
+  };
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    if (video.paused) {
+      video.play().catch(() => {
+        video.muted = true;
+        video.play().catch(() => {});
       });
+      return;
     }
+
+    video.pause();
+  };
+
+  const seekVideo = (value: number) => {
+    const video = videoRef.current;
+    if (!video || duration <= 0) return;
+    const nextTime = (value / 100) * duration;
+    video.currentTime = nextTime;
+    setCurrentTime(nextTime);
+  };
+
+  useEffect(() => {
+    setPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+
+    if (!open || !videoRef.current) return;
+
+    const video = videoRef.current;
+    video.muted = false;
+    video.play().catch(() => {
+      video.muted = true;
+      video.play().catch(() => {});
+    });
   }, [open, activeIdx]);
+
+  useEffect(() => {
+    if (!open) {
+      const video = videoRef.current;
+      if (video) video.pause();
+    }
+  }, [open]);
 
   return (
     <section id="about" className="section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
@@ -124,30 +167,59 @@ export function About() {
 
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogContent
-          className="w-auto max-w-[95vw] border-none bg-transparent p-0 shadow-none data-[state=open]:animate-scale-in sm:max-w-[min(95vw,90vh)] [&>button.absolute]:hidden"
+          className="w-auto max-w-[96vw] border-none bg-transparent p-0 shadow-none data-[state=open]:animate-scale-in sm:max-w-[min(96vw,92vh)] [&>button.absolute]:hidden"
         >
           <div className="relative inline-block">
             <video
               ref={videoRef}
-              key={VIDEOS[activeIdx].mp4}
-              controls
+              key={activeVideo.mp4}
               autoPlay
               playsInline
+              disablePictureInPicture
+              controlsList="nodownload noplaybackrate noremoteplayback"
               {...({ "webkit-playsinline": "true", "x5-playsinline": "true" } as Record<string, string>)}
-              preload="metadata"
-              className="block max-h-[88vh] max-w-[95vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
+              preload="none"
+              aria-label={activeVideo.title}
+              onLoadedMetadata={syncVideoTime}
+              onTimeUpdate={syncVideoTime}
+              onProgress={syncVideoTime}
+              onPlaying={() => setPlaying(true)}
+              onPause={() => setPlaying(false)}
+              onEnded={() => setPlaying(false)}
+              className="block max-h-[88vh] max-w-[96vw] w-auto h-auto rounded-2xl bg-transparent shadow-lift"
             >
               {/* MP4 first so iOS Safari (no WebM support) always has a playable source */}
-              <source src={VIDEOS[activeIdx].mp4} type="video/mp4" />
-              {VIDEOS[activeIdx].webm && (
-                <source src={VIDEOS[activeIdx].webm} type="video/webm" />
+              <source src={activeVideo.mp4} type="video/mp4" />
+              {activeVideo.webm && (
+                <source src={activeVideo.webm} type="video/webm" />
               )}
               Your browser can't play this video.{" "}
-              <a href={VIDEOS[activeIdx].mp4} className="underline">
+              <a href={activeVideo.mp4} className="underline">
                 Open it directly
               </a>
               .
             </video>
+
+            <div className="absolute inset-x-3 bottom-3 z-10 flex items-center gap-3 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--primary)]/88 px-3 py-2 shadow-lift backdrop-blur-md sm:inset-x-4 sm:bottom-4">
+              <Button
+                aria-label={playing ? "Pause video" : "Play video"}
+                size="icon"
+                className="size-10 shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--terracotta)] text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)]"
+                onClick={togglePlay}
+              >
+                {playing ? <Pause /> : <Play className="ml-0.5 fill-current" />}
+              </Button>
+              <input
+                type="range"
+                min={0}
+                max={100}
+                value={progress}
+                aria-label="Video progress"
+                className="kalash-video-range h-5 w-52 max-w-[58vw] flex-1"
+                onChange={(e) => seekVideo(Number(e.currentTarget.value))}
+                style={{ "--video-progress": `${progress}%` } as React.CSSProperties}
+              />
+            </div>
 
             <Button
               aria-label="Close video"
@@ -165,7 +237,7 @@ export function About() {
                   aria-label="Previous video"
                   size="icon"
                   variant="secondary"
-                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--primary)]/80 text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)]"
                   onClick={() => go(-1)}
                 >
                   <ChevronLeft />
@@ -174,13 +246,13 @@ export function About() {
                   aria-label="Next video"
                   size="icon"
                   variant="secondary"
-                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full"
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full border border-[color:var(--gold)]/30 bg-[color:var(--primary)]/80 text-[color:var(--cream)] hover:bg-[color:var(--gold)] hover:text-[color:var(--ink)]"
                   onClick={() => go(1)}
                 >
                   <ChevronRight />
                 </Button>
 
-                <div className="absolute bottom-3 left-1/2 z-10 flex -translate-x-1/2 gap-2 rounded-full bg-black/50 px-3 py-1.5 backdrop-blur-sm">
+                <div className="absolute left-1/2 top-3 z-10 flex -translate-x-1/2 gap-2 rounded-full border border-[color:var(--gold)]/20 bg-[color:var(--primary)]/65 px-3 py-1.5 backdrop-blur-sm">
                   {VIDEOS.map((_, i) => (
                     <button
                       key={i}
@@ -188,7 +260,7 @@ export function About() {
                       aria-label={`Play video ${i + 1}`}
                       onClick={() => setActiveIdx(i)}
                       className={`h-1.5 rounded-full transition-all ${
-                        i === activeIdx ? "w-8 bg-white" : "w-1.5 bg-white/50 hover:bg-white/70"
+                        i === activeIdx ? "w-8 bg-[color:var(--gold)]" : "w-1.5 bg-[color:var(--cream)]/55 hover:bg-[color:var(--cream)]/80"
                       }`}
                     />
                   ))}

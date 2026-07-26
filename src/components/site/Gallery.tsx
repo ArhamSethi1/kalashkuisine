@@ -64,6 +64,7 @@ const MASONRY = [
 ];
 
 const ALL_IMAGES = [...IMAGES, ...MOMENTS];
+const preloadedGalleryImages = new Set<string>();
 
 export function Gallery() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -74,6 +75,17 @@ export function Gallery() {
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    ALL_IMAGES.forEach((img) => {
+      if (preloadedGalleryImages.has(img.src)) return;
+      preloadedGalleryImages.add(img.src);
+      const preload = new Image();
+      preload.decoding = "async";
+      preload.loading = "eager";
+      preload.src = img.src;
+    });
+  }, []);
 
   useEffect(() => {
     if (lightbox === null) return;

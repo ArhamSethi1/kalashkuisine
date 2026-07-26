@@ -71,8 +71,7 @@ export function ImageWithSkeleton({
           img.onError?.(e);
         }}
         className={cn(
-          "relative z-[1] transition-opacity duration-500",
-          loaded ? "opacity-100" : "opacity-0",
+          "relative z-[1] opacity-100 transition-opacity duration-500",
           className,
         )}
       />
