@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { SectionDivider, SectionEyebrow } from "./SectionDivider";
 import g1 from "@/assets/gallery-facade.webp.asset.json";
@@ -64,6 +64,7 @@ const MASONRY = [
 ];
 
 const ALL_IMAGES = [...IMAGES, ...MOMENTS];
+const preloadedGalleryImages = new Set<string>();
 
 export function Gallery() {
   const [emblaRef, emblaApi] = useEmblaCarousel(
@@ -74,6 +75,17 @@ export function Gallery() {
 
   const scrollPrev = useCallback(() => emblaApi?.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
+
+  useEffect(() => {
+    ALL_IMAGES.forEach((img) => {
+      if (preloadedGalleryImages.has(img.src)) return;
+      preloadedGalleryImages.add(img.src);
+      const preload = new Image();
+      preload.decoding = "async";
+      preload.loading = "eager";
+      preload.src = img.src;
+    });
+  }, []);
 
   useEffect(() => {
     if (lightbox === null) return;
@@ -198,6 +210,7 @@ export function Gallery() {
         <DialogContent
           className="max-w-5xl border-none bg-transparent p-0 shadow-none [&>button.absolute]:hidden"
         >
+          <DialogTitle className="sr-only">Kalash Kuisine gallery image</DialogTitle>
           {lightbox !== null && (
             <div className="relative">
               <img

@@ -1,4 +1,4 @@
-import { useState, type ImgHTMLAttributes } from "react";
+import { useEffect, useRef, useState, type ImgHTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
 type Props = ImgHTMLAttributes<HTMLImageElement> & {
@@ -21,7 +21,29 @@ export function ImageWithSkeleton({
   onLoad,
   ...img
 }: Props) {
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const [loaded, setLoaded] = useState(false);
+  const srcKey = typeof img.src === "string" ? img.src : undefined;
+
+  useEffect(() => {
+    setLoaded(false);
+    const node = imgRef.current;
+    if (!node) return;
+
+    if (node.complete && node.naturalWidth > 0) {
+      setLoaded(true);
+      return;
+    }
+
+    const id = window.setTimeout(() => {
+      const current = imgRef.current;
+      if (current?.complete && current.naturalWidth > 0) {
+        setLoaded(true);
+      }
+    }, 0);
+
+    return () => window.clearTimeout(id);
+  }, [srcKey]);
 
   return (
     <div className={cn("relative overflow-hidden bg-[color:var(--muted)]", wrapperClassName)}>
@@ -39,13 +61,17 @@ export function ImageWithSkeleton({
       />
       <img
         {...img}
+        ref={imgRef}
         onLoad={(e) => {
           setLoaded(true);
           onLoad?.(e);
         }}
+        onError={(e) => {
+          setLoaded(true);
+          img.onError?.(e);
+        }}
         className={cn(
-          "relative transition-opacity duration-500",
-          loaded ? "opacity-100" : "opacity-0",
+          "relative z-[1] opacity-100 transition-opacity duration-500",
           className,
         )}
       />

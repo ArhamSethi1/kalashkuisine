@@ -14,6 +14,7 @@ import { FindUs } from "@/components/site/FindUs";
 import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { RajasthaniBorder } from "@/components/site/RajasthaniBorder";
+import { PerformanceReporter } from "@/components/site/PerformanceReporter";
 import {
   DesktopDoodleScatter,
   MobileDoodleScatter,
@@ -135,6 +136,7 @@ export const Route = createFileRoute("/")({
 function Index() {
   return (
     <>
+      <PerformanceReporter />
       <Nav />
       <main id="top" className="relative overflow-hidden">
         {/* Ornamental maroon doodles — large on desktop, small scattered on mobile */}

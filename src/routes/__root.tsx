@@ -132,14 +132,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         as: "image",
         href: "/__l5e/assets-v1/c9412120-0b2b-493d-b5e0-44ccba6660a7/hero-mobile.webp",
         media: "(max-width: 639px)",
-        fetchpriority: "high",
+        fetchPriority: "high",
       } as Record<string, string>,
       {
         rel: "preload",
         as: "image",
         href: "/__l5e/assets-v1/aac15ad6-4408-449b-bec9-e3f720e48a9b/hero-desktop.webp",
         media: "(min-width: 640px)",
-        fetchpriority: "high",
+        fetchPriority: "high",
       } as Record<string, string>,
       {
         rel: "stylesheet",
