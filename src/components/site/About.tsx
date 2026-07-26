@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight, Pause, Play, X } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
@@ -217,7 +217,7 @@ export function About() {
                 aria-label="Video progress"
                 className="kalash-video-range h-5 w-52 max-w-[58vw] flex-1"
                 onChange={(e) => seekVideo(Number(e.currentTarget.value))}
-                style={{ "--video-progress": `${progress}%` } as React.CSSProperties}
+                style={{ "--video-progress": `${progress}%` } as CSSProperties}
               />
             </div>
 
