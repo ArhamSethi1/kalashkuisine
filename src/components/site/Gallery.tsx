@@ -25,6 +25,7 @@ import s6 from "@/assets/moment-5303.webp.asset.json";
 import s7 from "@/assets/moment-jan03.webp.asset.json";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { cn } from "@/lib/utils";
+import { responsiveImages } from "@/data/responsive-images";
 
 const IMAGES = [
   { src: g1.url, alt: "Kalash Kuisine storefront with Rajasthani jharokha arches at night" },
@@ -64,6 +65,13 @@ const MASONRY = [
 ];
 
 const ALL_IMAGES = [...IMAGES, ...MOMENTS];
+const CDN_IMAGES = [
+  "gallery-facade", "gallery-mural", "gallery-window", "gallery-signage2",
+  "gallery-booth", "gallery-corridor", "dish-thali", "dish-paneer",
+  "moments-shake", "moments-signage", "moments-decor", "moment-jan27",
+  "moment-2398", "moment-5135", "moment-5195", "moment-5249",
+  "moment-5303", "moment-jan03",
+] as const;
 const preloadedGalleryImages = new Set<string>();
 
 export function Gallery() {
@@ -77,13 +85,16 @@ export function Gallery() {
   const scrollNext = useCallback(() => emblaApi?.scrollNext(), [emblaApi]);
 
   useEffect(() => {
-    ALL_IMAGES.forEach((img) => {
-      if (preloadedGalleryImages.has(img.src)) return;
-      preloadedGalleryImages.add(img.src);
+    CDN_IMAGES.forEach((key, i) => {
+      const asset = responsiveImages[key];
+      if (preloadedGalleryImages.has(asset.src)) return;
+      preloadedGalleryImages.add(asset.src);
       const preload = new Image();
       preload.decoding = "async";
       preload.loading = "eager";
-      preload.src = img.src;
+      preload.srcset = asset.srcSet;
+      preload.sizes = i === 0 ? "(min-width: 640px) 50vw, 100vw" : i < IMAGES.length ? "(min-width: 640px) 25vw, 100vw" : "(min-width: 1024px) 44vw, 88vw";
+      preload.src = asset.src;
     });
   }, []);
 
@@ -129,7 +140,9 @@ export function Gallery() {
                 )}
               >
                 <ImageWithSkeleton
-                  src={img.src}
+                  src={responsiveImages[CDN_IMAGES[i]].src}
+                  srcSet={responsiveImages[CDN_IMAGES[i]].srcSet}
+                  sizes={i === 0 ? "(min-width: 640px) 50vw, 100vw" : "(min-width: 640px) 25vw, 100vw"}
                   alt={img.alt}
                   width={1400}
                   height={1000}
@@ -167,7 +180,9 @@ export function Gallery() {
                     className="group relative flex-[0_0_88%] cursor-zoom-in overflow-hidden rounded-3xl shadow-soft transition-shadow hover:shadow-lift sm:flex-[0_0_60%] lg:flex-[0_0_44%]"
                   >
                     <ImageWithSkeleton
-                      src={img.src}
+                      src={responsiveImages[CDN_IMAGES[idx]].src}
+                      srcSet={responsiveImages[CDN_IMAGES[idx]].srcSet}
+                      sizes="(min-width: 1024px) 44vw, (min-width: 640px) 60vw, 88vw"
                       alt={img.alt}
                       width={1400}
                       height={1000}
@@ -214,7 +229,7 @@ export function Gallery() {
           {lightbox !== null && (
             <div className="relative">
               <img
-                src={ALL_IMAGES[lightbox].src}
+                 src={responsiveImages[CDN_IMAGES[lightbox]].full}
                 alt={ALL_IMAGES[lightbox].alt}
                 className="max-h-[85vh] w-full rounded-2xl object-contain"
               />

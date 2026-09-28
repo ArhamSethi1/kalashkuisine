@@ -18,33 +18,33 @@ const LINKS = [
 ];
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
+  const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      const hero = document.getElementById("home");
+      setPastHero(Boolean(hero && hero.getBoundingClientRect().bottom <= 0));
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onScroll); };
   }, []);
 
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500",
-        scrolled
-          ? "border-b border-border/60 bg-[color:var(--cream)]/85 backdrop-blur-xl shadow-soft"
-          : "bg-transparent",
+        "fixed inset-x-0 top-0 z-50 border-b border-[color:var(--gold)]/30 bg-primary text-primary-foreground shadow-soft transition-all duration-300",
+        pastHero ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0 lg:pointer-events-auto lg:translate-y-0 lg:opacity-100",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
+      <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
         <a href="#home" className="group flex items-center gap-2.5">
           <span
             className={cn(
               "grid size-9 place-items-center rounded-full border transition-colors",
-              scrolled
-                ? "border-[color:var(--gold)]/60 bg-primary text-primary-foreground"
-                : "border-white/40 bg-white/10 text-white backdrop-blur-md",
+              "border-[color:var(--gold)]/60 bg-[color:var(--cream)]/10 text-primary-foreground",
             )}
             aria-hidden
           >
@@ -53,33 +53,34 @@ export function Nav() {
           <span
             className={cn(
               "font-display text-xl font-semibold tracking-tight transition-colors sm:text-2xl",
-              scrolled ? "text-primary" : "text-white drop-shadow-sm",
+              "text-primary-foreground",
             )}
           >
             Kalash Kuisine
           </span>
         </a>
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="absolute left-1/2 hidden -translate-x-1/2 items-center justify-center gap-1 lg:flex">
           {LINKS.map((l) => (
             <a
               key={l.href}
               href={l.href}
               className={cn(
                 "group relative rounded-full px-3 py-2 text-sm font-medium transition-colors",
-                scrolled ? "text-foreground/80 hover:text-primary" : "text-white/90 hover:text-white",
+                 "text-primary-foreground/90 hover:text-primary-foreground",
               )}
             >
               {l.label}
               <span
                 className={cn(
                   "pointer-events-none absolute inset-x-3 -bottom-0.5 h-px origin-left scale-x-0 transition-transform duration-300 group-hover:scale-x-100",
-                  scrolled ? "bg-[color:var(--gold)]" : "bg-white",
+                   "bg-[color:var(--gold)]",
                 )}
               />
             </a>
           ))}
-          <div className="ml-2 flex items-center gap-2">
+        </nav>
+          <div className="ml-auto hidden items-center gap-2 lg:flex">
             <Button asChild size="sm" className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0">
               <a href={CONTACT.order.swiggy} target="_blank" rel="noreferrer">
                 <SwiggyIcon className="size-4" />
@@ -93,7 +94,6 @@ export function Nav() {
               </a>
             </Button>
           </div>
-        </nav>
 
         <div className="flex items-center gap-2 lg:hidden">
           <Button asChild size="icon" aria-label="Order on Swiggy" className="bg-[#FC8019] text-white hover:bg-[#e37115] border-0">
@@ -112,7 +112,7 @@ export function Nav() {
                 variant="ghost"
                 size="icon"
                 aria-label="Open menu"
-                className={cn(scrolled ? "text-foreground" : "text-white hover:bg-white/10 hover:text-white")}
+                className="text-primary-foreground hover:bg-[color:var(--cream)]/10 hover:text-primary-foreground"
               >
                 <Menu />
               </Button>
@@ -124,13 +124,13 @@ export function Nav() {
                   <X />
                 </Button>
               </div>
-              <nav className="flex flex-col gap-1">
+              <nav className="flex flex-col items-center gap-1 text-center">
                 {LINKS.map((l) => (
                   <a
                     key={l.href}
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="rounded-xl px-4 py-3 text-lg font-medium text-foreground/90 transition-colors hover:bg-accent/40 hover:text-primary"
+                    className="w-full rounded-xl px-4 py-3 text-lg font-medium text-foreground/90 transition-colors hover:bg-accent/40 hover:text-primary"
                   >
                     {l.label}
                   </a>
