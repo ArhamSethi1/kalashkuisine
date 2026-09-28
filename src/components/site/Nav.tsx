@@ -35,8 +35,8 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 border-b border-[color:var(--gold)]/30 bg-primary text-primary-foreground shadow-soft transition-all duration-300",
-        pastHero ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0 lg:pointer-events-auto lg:translate-y-0 lg:opacity-100",
+        "inset-x-0 top-0 z-50 border-b border-[color:var(--gold)]/30 bg-primary text-primary-foreground shadow-soft",
+        pastHero ? "fixed" : "absolute lg:fixed",
       )}
     >
       <div className="relative mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:h-20 sm:px-8">
