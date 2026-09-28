@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Responsive hero and gallery photos use pre-sized WebP variants on the existing Lovable assets CDN, selected with `srcSet`/`sizes`; the CDN image path itself does not support on-demand resizing, so pre-generated variants avoid large downloads.
+- About videos warm their first two seconds with CDN byte-range requests when About enters the viewport; keep playback URLs as MP4 with WebM fallback for iOS compatibility.
