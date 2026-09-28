@@ -18,13 +18,11 @@ const LINKS = [
 ];
 
 export function Nav() {
-  const [scrolled, setScrolled] = useState(false);
   const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
       const hero = document.getElementById("home");
       setPastHero(Boolean(hero && hero.getBoundingClientRect().bottom <= 0));
     };

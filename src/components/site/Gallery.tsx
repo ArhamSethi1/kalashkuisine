@@ -93,7 +93,7 @@ export function Gallery() {
       preload.decoding = "async";
       preload.loading = "eager";
       preload.srcset = asset.srcSet;
-      preload.sizes = i < IMAGES.length ? "(min-width: 640px) 25vw, 100vw" : "(min-width: 1024px) 44vw, 88vw";
+      preload.sizes = i === 0 ? "(min-width: 640px) 50vw, 100vw" : i < IMAGES.length ? "(min-width: 640px) 25vw, 100vw" : "(min-width: 1024px) 44vw, 88vw";
       preload.src = asset.src;
     });
   }, []);

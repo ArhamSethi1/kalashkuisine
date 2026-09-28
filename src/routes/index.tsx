@@ -15,13 +15,14 @@ import { Footer } from "@/components/site/Footer";
 import { FloatingActions } from "@/components/site/FloatingActions";
 import { RajasthaniBorder } from "@/components/site/RajasthaniBorder";
 import { PerformanceReporter } from "@/components/site/PerformanceReporter";
+import { responsiveImages } from "@/data/responsive-images";
 import {
   DesktopDoodleScatter,
   MobileDoodleScatter,
 } from "@/components/site/RajasthaniDoodles";
 
 const SITE_URL = "https://kalashkuisine.lovable.app";
-const OG_IMAGE = `${SITE_URL}/og-cover.jpg`;
+const OG_IMAGE = `https://ronaldoisgoat.lovable.app${responsiveImages["hero-desktop"].full}`;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -107,6 +108,12 @@ const breadcrumbLd = {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { title: "Kalash Kuisine | Family Restaurant in Mansarovar, Jaipur" },
+      { name: "description", content: "Explore Kalash Kuisine in Mansarovar, Jaipur: North Indian and Rajasthani favourites, family dining, reservations and directions." },
+      { property: "og:title", content: "Kalash Kuisine | Family Dining in Jaipur" },
+      { property: "og:description", content: "Explore the food, ambience, menu and reservations at Kalash Kuisine in Mansarovar, Jaipur." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: SITE_URL },
       { property: "og:image", content: OG_IMAGE },
       { property: "og:image:width", content: "1200" },
