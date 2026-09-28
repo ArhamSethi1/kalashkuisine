@@ -163,6 +163,18 @@
   transform: none;
 }
 
+/* Desktop About content must never depend on a scroll observer to become visible. */
+@media (min-width: 1024px) {
+  .about-section .reveal,
+  .about-section .reveal-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+    will-change: auto;
+  }
+  .about-section .animate-soft-float { animation: none; }
+}
+
 @utility shadow-soft { box-shadow: var(--shadow-soft); }
 @utility shadow-lift { box-shadow: var(--shadow-lift); }
 @utility shadow-glow { box-shadow: var(--shadow-glow); }

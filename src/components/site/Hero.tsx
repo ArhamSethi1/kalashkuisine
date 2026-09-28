@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Instagram, MapPin, Menu as MenuIcon, Phone, Star } from "lucide-react";
 import heroDesktopAsset from "@/assets/hero-desktop.webp.asset.json";
 import heroMobileAsset from "@/assets/hero-mobile.webp.asset.json";
+import { responsiveImages } from "@/data/responsive-images";
 import { CONTACT } from "@/data/contact";
 import { ReserveMenu } from "./ReserveMenu";
 import { SwiggyIcon, ZomatoIcon } from "./BrandIcons";
@@ -13,7 +14,9 @@ export function Hero() {
       {/* Background */}
       <div className="absolute inset-0 bg-[color:var(--primary)]">
         <img
-          src={heroMobileAsset.url}
+          src={responsiveImages["hero-mobile"].src}
+          srcSet={responsiveImages["hero-mobile"].srcSet}
+          sizes="(max-width: 639px) 100vw, 1px"
           alt="Warm elegant interior of Kalash Kuisine restaurant in Mansarovar, Jaipur"
           width={1200}
           height={1800}
@@ -23,7 +26,9 @@ export function Hero() {
           className="size-full object-cover animate-slow-zoom sm:hidden"
         />
         <img
-          src={heroDesktopAsset.url}
+          src={responsiveImages["hero-desktop"].src}
+          srcSet={responsiveImages["hero-desktop"].srcSet}
+          sizes="(min-width: 640px) 100vw, 1px"
           alt="Warm elegant interior of Kalash Kuisine restaurant in Mansarovar, Jaipur"
           width={1920}
           height={1200}

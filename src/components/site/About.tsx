@@ -34,6 +34,7 @@ export function About() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const activeVideo = VIDEOS[activeIdx];
   const progress = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
 
@@ -98,8 +99,31 @@ export function About() {
     }
   }, [open]);
 
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section || typeof IntersectionObserver === "undefined") return;
+    const controller = new AbortController();
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return;
+      observer.disconnect();
+      // Range requests warm only the opening ~2 seconds, not entire videos.
+      const openingBytes = [415346, 1047890, 792378, 538549, 1759872];
+      VIDEOS.forEach((video, index) => {
+        fetch(video.mp4, {
+          headers: { Range: `bytes=0-${openingBytes[index] - 1}` },
+          signal: controller.signal,
+        }).then((response) => {
+          if (response.status === 206) return response.arrayBuffer();
+          response.body?.cancel();
+        }).catch(() => {});
+      });
+    }, { threshold: 0.01 });
+    observer.observe(section);
+    return () => { observer.disconnect(); controller.abort(); };
+  }, []);
+
   return (
-    <section id="about" className="section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
+    <section id="about" ref={sectionRef} className="about-section section-maroon relative px-5 py-28 sm:px-8 sm:py-36">
       <div ref={ref} className="mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-20">
         <div className={`reveal ${visible ? "reveal-in" : ""} relative order-2 lg:order-1`}>
           <button

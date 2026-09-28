@@ -10,6 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
+import { responsiveImages } from "@/data/responsive-images";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -130,14 +131,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "preload",
         as: "image",
-        href: "/__l5e/assets-v1/c9412120-0b2b-493d-b5e0-44ccba6660a7/hero-mobile.webp",
+         href: responsiveImages["hero-mobile"].src,
+         imageSrcSet: responsiveImages["hero-mobile"].srcSet,
+         imageSizes: "100vw",
         media: "(max-width: 639px)",
         fetchPriority: "high",
       } as Record<string, string>,
       {
         rel: "preload",
         as: "image",
-        href: "/__l5e/assets-v1/aac15ad6-4408-449b-bec9-e3f720e48a9b/hero-desktop.webp",
+         href: responsiveImages["hero-desktop"].src,
+         imageSrcSet: responsiveImages["hero-desktop"].srcSet,
+         imageSizes: "100vw",
         media: "(min-width: 640px)",
         fetchPriority: "high",
       } as Record<string, string>,
