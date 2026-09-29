@@ -24,15 +24,15 @@ export function FloatingActions() {
     <>
       <Button
         asChild
-        size="icon"
         aria-label="Call Kalash Kuisine"
         className={cn(
-          "fixed bottom-4 left-4 z-40 size-12 rounded-full border border-[color:var(--gold)]/70 bg-primary text-primary-foreground shadow-lift transition-all sm:hidden",
+          "fixed bottom-4 left-4 z-40 h-12 rounded-full border border-[color:var(--gold)]/70 bg-primary px-4 text-primary-foreground shadow-lift transition-all sm:hidden",
           pastHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
         )}
       >
         <a href={CONTACT.phoneHref}>
           <Phone className="size-5" />
+          Call Now
         </a>
       </Button>
 
