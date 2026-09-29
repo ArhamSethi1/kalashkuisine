@@ -26,7 +26,7 @@ export function FloatingActions() {
         asChild
         aria-label="Call Kalash Kuisine"
         className={cn(
-          "fixed bottom-4 left-4 z-40 h-12 rounded-full border border-[color:var(--gold)]/70 bg-primary px-4 text-primary-foreground shadow-lift transition-all sm:hidden",
+          "fixed bottom-4 left-4 z-40 h-12 rounded-full border border-[color:var(--gold)]/70 bg-primary px-4 text-primary-foreground shadow-lift transition-all sm:bottom-6 sm:left-6",
           pastHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
         )}
       >
