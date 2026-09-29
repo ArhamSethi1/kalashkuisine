@@ -6,6 +6,7 @@ import { REVIEWS, type ReviewTag } from "@/data/reviews";
 import { CONTACT } from "@/data/contact";
 import { useReveal } from "@/hooks/useReveal";
 import { cn } from "@/lib/utils";
+import { ReserveMenu } from "./ReserveMenu";
 
 const AVATAR_TONES = [
   "bg-[color:var(--gold)]/25 text-[color:var(--primary)]",
@@ -136,6 +137,13 @@ export function Reviews() {
               <ExternalLink />
             </a>
           </Button>
+        </div>
+
+        <div className="mx-auto mt-8 max-w-sm sm:hidden">
+          <ReserveMenu
+            size="lg"
+            className="h-14 w-full rounded-none border-2 border-primary bg-card text-xl font-semibold text-primary shadow-soft hover:bg-primary hover:text-primary-foreground"
+          />
         </div>
       </div>
     </section>

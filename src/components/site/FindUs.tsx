@@ -18,8 +18,8 @@ export function FindUs() {
             <div className="my-6 h-px w-16 bg-[color:var(--gold)]/70" />
 
 
-            <ul className="space-y-5 text-[color:var(--cream)]">
-              <li className="flex gap-4">
+            <ul className="grid gap-3 text-[color:var(--cream)] sm:grid-cols-2 lg:grid-cols-1">
+              <li className="flex gap-4 rounded-xl border border-[color:var(--gold)]/35 bg-black/15 p-4 shadow-soft">
                 <MapPin className="mt-1 size-5 shrink-0 text-[color:var(--gold)]" />
                 <div>
                   <div className="text-sm font-medium uppercase tracking-widest text-[color:var(--gold)]/80">
@@ -32,7 +32,7 @@ export function FindUs() {
                   </div>
                 </div>
               </li>
-              <li className="flex gap-4">
+              <li className="flex gap-4 rounded-xl border border-[color:var(--gold)]/35 bg-black/15 p-4 shadow-soft">
                 <Phone className="mt-1 size-5 shrink-0 text-[color:var(--gold)]" />
                 <div>
                   <div className="text-sm font-medium uppercase tracking-widest text-[color:var(--gold)]/80">
@@ -46,7 +46,7 @@ export function FindUs() {
                   </a>
                 </div>
               </li>
-              <li className="flex gap-4">
+              <li className="flex gap-4 rounded-xl border border-[color:var(--gold)]/35 bg-black/15 p-4 shadow-soft">
                 <Clock className="mt-1 size-5 shrink-0 text-[color:var(--gold)]" />
                 <div>
                   <div className="text-sm font-medium uppercase tracking-widest text-[color:var(--gold)]/80">
@@ -55,7 +55,7 @@ export function FindUs() {
                   <div className="mt-1 text-base">{CONTACT.hours}</div>
                 </div>
               </li>
-              <li className="flex gap-4">
+              <li className="flex gap-4 rounded-xl border border-[color:var(--gold)]/35 bg-black/15 p-4 shadow-soft">
                 <Car className="mt-1 size-5 shrink-0 text-[color:var(--gold)]" />
                 <div>
                   <div className="text-sm font-medium uppercase tracking-widest text-[color:var(--gold)]/80">

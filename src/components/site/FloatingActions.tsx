@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ArrowUp, CalendarCheck, ExternalLink, X } from "lucide-react";
+import { ArrowUp, CalendarCheck, ExternalLink, Phone, X } from "lucide-react";
 import { WhatsAppIcon } from "./WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { CONTACT } from "@/data/contact";
@@ -21,7 +21,22 @@ export function FloatingActions() {
   }, [pastHero]);
 
   return (
-    <div className="pointer-events-none fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
+    <>
+      <Button
+        asChild
+        aria-label="Call Kalash Kuisine"
+        className={cn(
+          "fixed bottom-4 left-4 z-40 h-12 rounded-full border border-[color:var(--gold)]/70 bg-primary px-4 text-primary-foreground shadow-lift transition-all sm:hidden",
+          pastHero ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0",
+        )}
+      >
+        <a href={CONTACT.phoneHref}>
+          <Phone className="size-5" />
+          Call Now
+        </a>
+      </Button>
+
+      <div className="pointer-events-none fixed bottom-4 right-4 z-40 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
       <div
         className={cn(
           "pointer-events-auto flex flex-col items-end gap-2 transition-all duration-300",
@@ -84,6 +99,7 @@ export function FloatingActions() {
           {open ? <X /> : <CalendarCheck />}
         </Button>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

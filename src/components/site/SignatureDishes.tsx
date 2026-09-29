@@ -4,6 +4,7 @@ import { SIGNATURE_DISHES } from "@/data/dishes";
 import { useReveal } from "@/hooks/useReveal";
 import { Button } from "@/components/ui/button";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
+import { ReserveMenu } from "./ReserveMenu";
 
 export function SignatureDishes() {
   const { ref, visible } = useReveal<HTMLDivElement>();
@@ -69,6 +70,13 @@ export function SignatureDishes() {
           >
             <a href="#menu">View Full Menu</a>
           </Button>
+        </div>
+
+        <div className="mx-auto mt-8 max-w-sm sm:hidden">
+          <ReserveMenu
+            size="lg"
+            className="h-14 w-full rounded-none border-2 border-[color:var(--gold)] bg-primary text-xl font-semibold text-[color:var(--gold)] shadow-glow hover:bg-primary hover:text-[color:var(--gold-soft)]"
+          />
         </div>
       </div>
     </section>
