@@ -26,6 +26,7 @@ import s7 from "@/assets/moment-jan03.webp.asset.json";
 import { ImageWithSkeleton } from "./ImageWithSkeleton";
 import { cn } from "@/lib/utils";
 import { responsiveImages } from "@/data/responsive-images";
+import { ReserveMenu } from "./ReserveMenu";
 
 const IMAGES = [
   { src: g1.url, alt: "Kalash Kuisine storefront with Rajasthani jharokha arches at night" },
@@ -154,6 +155,13 @@ export function Gallery() {
               </button>
             );
           })}
+        </div>
+
+        <div className="mx-auto mt-8 max-w-sm sm:hidden">
+          <ReserveMenu
+            size="lg"
+            className="h-14 w-full rounded-none border-2 border-[color:var(--terracotta)] bg-transparent text-xl font-semibold text-[color:var(--terracotta)] shadow-soft hover:bg-primary hover:text-primary-foreground"
+          />
         </div>
 
         {/* Existing rolling strip — kept, moved below masonry */}

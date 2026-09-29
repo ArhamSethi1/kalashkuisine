@@ -15,6 +15,7 @@ import clip4Webm from "@/assets/kalash-clip-4.webm.asset.json";
 import clip5Webm from "@/assets/kalash-clip-5.webm.asset.json";
 import { SectionEyebrow } from "./SectionDivider";
 import { useReveal } from "@/hooks/useReveal";
+import { ReserveMenu } from "./ReserveMenu";
 
 type Src = { mp4: string; webm?: string; title: string };
 
@@ -187,6 +188,13 @@ export function About() {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto mt-10 max-w-sm sm:hidden">
+        <ReserveMenu
+          size="lg"
+          className="h-14 w-full rounded-none border-2 border-[color:var(--gold)] bg-primary text-xl font-semibold text-[color:var(--gold)] shadow-glow hover:bg-primary hover:text-[color:var(--gold-soft)]"
+        />
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
