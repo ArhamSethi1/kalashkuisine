@@ -1,0 +1,1 @@
+CREATE POLICY "Read published offer posters" ON storage.objects FOR SELECT TO anon, authenticated USING (bucket_id = 'offer-posters' AND EXISTS (SELECT 1 FROM public.offers WHERE storage_path = name));
