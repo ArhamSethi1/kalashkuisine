@@ -14,13 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      offers: {
+        Row: {
+          created_at: string
+          cta_action: string
+          cta_text: string
+          description: string
+          eyebrow: string
+          id: string
+          image_url: string
+          sort_order: number
+          storage_path: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          cta_action?: string
+          cta_text?: string
+          description?: string
+          eyebrow?: string
+          id?: string
+          image_url?: string
+          sort_order?: number
+          storage_path?: string | null
+          title?: string
+        }
+        Update: {
+          created_at?: string
+          cta_action?: string
+          cta_text?: string
+          description?: string
+          eyebrow?: string
+          id?: string
+          image_url?: string
+          sort_order?: number
+          storage_path?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reorder_kalash_offers: { Args: { _ids: string[] }; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
