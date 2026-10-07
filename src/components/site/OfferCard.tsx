@@ -1,4 +1,4 @@
-import { ArrowUpRight, Expand, ImageIcon, Ticket } from 'lucide-react';
+import { ArrowUpRight, Expand, Ticket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Offer } from '@/lib/offers';
 
@@ -9,7 +9,7 @@ export function OfferCard({ offer, index = 0, onExpand }: { offer: Offer; index?
       <div className="relative aspect-[4/5] overflow-hidden bg-primary/5">
         {offer.image_url ? (
           <>
-            <img src={offer.image_url} alt={offer.title || 'Offer poster'} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <img src={offer.image_url} alt={offer.title || 'Offer poster'} loading="lazy" className="size-full object-cover transition-transform duration-500 group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100" />
             {onExpand && <Button variant="secondary" size="icon" onClick={onExpand} title="Expand offer poster" aria-label={`Expand ${offer.title || 'offer'} poster`} className="absolute right-3 top-3"><Expand className="size-4" /></Button>}
           </>
         ) : (
