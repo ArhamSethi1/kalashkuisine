@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import type { Offer } from './offers';
+import type { Database } from '@/integrations/supabase/types';
 
 const fields = 'id,image_url,storage_path,eyebrow,title,description,cta_text,cta_action,sort_order';
 const action = z.string().trim().max(1000).refine(value => !value || /^(https?:\/\/|tel:|mailto:|#[\w-]+$|\/(?!\/))/i.test(value), 'Enter a valid link or action.');
@@ -16,7 +17,7 @@ export const getPublicOffers = createServerFn({ method: 'GET' }).handler(async (
   const key = process.env['SUPABASE_PUBLISHABLE_KEY'];
   const url = process.env['SUPABASE_URL'];
   if (!key || !url) throw new Error('Offers are unavailable.');
-  const client = createClient(url, key, {
+  const client = createClient<Database>(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
     global: { fetch: (input, init) => {
       const headers = new Headers(init?.headers);
@@ -27,7 +28,12 @@ export const getPublicOffers = createServerFn({ method: 'GET' }).handler(async (
   });
   const { data, error } = await client.from('offers').select(fields).order('sort_order').order('created_at');
   if (error) throw new Error('Could not load offers.');
-  return data as Offer[];
+  return Promise.all(data.map(async row => {
+    if (!row.storage_path) return row as Offer;
+    const { data: signed, error: imageError } = await client.storage.from('offer-posters').createSignedUrl(row.storage_path, 3600);
+    if (imageError) throw new Error('Could not load an offer poster.');
+    return { ...row, image_url: signed.signedUrl } as Offer;
+  }));
 });
 
 export const editorStatus = createServerFn({ method: 'GET' }).handler(async () => {
@@ -56,8 +62,7 @@ export const saveOffer = createServerFn({ method: 'POST' })
     const { requireOfferEditor } = await import('./offers-session.server');
     await requireOfferEditor();
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
-    // Local untyped client accommodates additive tables before generated types refresh.
-    const client = supabaseAdmin as unknown as ReturnType<typeof createClient>;
+    const client = supabaseAdmin;
     let poster: { image_url: string; storage_path: string } | undefined;
     let oldPath: string | null = null;
     if (data.id) {
@@ -73,7 +78,7 @@ export const saveOffer = createServerFn({ method: 'POST' })
       const path = `${crypto.randomUUID()}.${match[1] === 'image/jpeg' ? 'jpg' : match[1].split('/')[1]}`;
       const { error } = await client.storage.from('offer-posters').upload(path, bytes, { contentType: match[1] });
       if (error) throw new Error('Could not upload the image.');
-      poster = { storage_path: path, image_url: client.storage.from('offer-posters').getPublicUrl(path).data.publicUrl };
+      poster = { storage_path: path, image_url: '' };
     }
     const { imageData: _imageData, id, ...values } = data;
     let error;
@@ -96,7 +101,7 @@ export const deleteOffer = createServerFn({ method: 'POST' })
     const { requireOfferEditor } = await import('./offers-session.server');
     await requireOfferEditor();
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
-    const client = supabaseAdmin as unknown as ReturnType<typeof createClient>;
+    const client = supabaseAdmin;
     const { data: row } = await client.from('offers').select('storage_path').eq('id', data.id).single();
     const { error } = await client.from('offers').delete().eq('id', data.id);
     if (error) throw new Error('Could not delete this offer.');
@@ -110,7 +115,7 @@ export const reorderOffers = createServerFn({ method: 'POST' })
     const { requireOfferEditor } = await import('./offers-session.server');
     await requireOfferEditor();
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
-    const client = supabaseAdmin as unknown as ReturnType<typeof createClient>;
+    const client = supabaseAdmin;
     const { error } = await client.rpc('reorder_kalash_offers', { _ids: data.ids });
     if (error) throw new Error('Could not save the order.');
     return { ok: true };

@@ -1,7 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Nav } from "@/components/site/Nav";
 import { Hero } from "@/components/site/Hero";
-import { TrustBar } from "@/components/site/TrustBar";
+import { Offers } from "@/components/site/Offers";
+import { offersQueryOptions } from "@/lib/offers";
+import { Button } from "@/components/ui/button";
 import { About } from "@/components/site/About";
 import { Gallery } from "@/components/site/Gallery";
 import { SignatureDishes } from "@/components/site/SignatureDishes";
@@ -106,6 +108,9 @@ const breadcrumbLd = {
 };
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(offersQueryOptions),
+  errorComponent: ({ reset }) => <div className="grid min-h-screen place-content-center gap-4 bg-background p-6 text-center"><h1 className="font-display text-3xl text-primary">Kalash Kuisine</h1><p>We couldn’t load this page.</p><Button onClick={reset}>Try again</Button></div>,
+  notFoundComponent: () => <div className="p-8 text-center">Kalash Kuisine page not found.</div>,
   head: () => ({
     meta: [
       { title: "Kalash Kuisine | Family Restaurant in Mansarovar, Jaipur" },
@@ -152,7 +157,7 @@ function Index() {
 
 
         <Hero />
-        <TrustBar />
+        <Offers />
         <About />
         <RajasthaniBorder tone="maroon-to-cream" />
         <Gallery />
