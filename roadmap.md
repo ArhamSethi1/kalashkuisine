@@ -7,6 +7,6 @@
 - [x] Add a mobile Call Now action opposite WhatsApp after the hero.
 - [x] Add highlighted mobile reservation actions after About, Gallery, Customer Favourites, and Reviews.
 - [x] Give each Find Us detail its own highlighted background box.
-- [ ] Replace the below-hero cards with four KORR.fit-style offer placeholders, desktop row/mobile 2×2.
-- [ ] Add secure offer editing, creation and rearrangement matching KORR.fit.
-- [ ] Verify public offers and protected editor workflows.
+- [x] Replace the below-hero cards with four KORR.fit-style offer placeholders, desktop row/mobile 2×2.
+- [x] Add secure offer editing, creation and rearrangement matching KORR.fit.
+- [x] Verify public offers and protected editor workflows.
